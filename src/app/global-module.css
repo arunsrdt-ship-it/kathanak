@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base Reset ──────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --nav-height: 5rem;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-bg text-text-primary font-body overflow-x-hidden selection:bg-accent-blue selection:text-text-primary;
+    min-height: 100dvh;
+  }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { @apply bg-bg-alt border-l border-border-light; }
+  ::-webkit-scrollbar-thumb { @apply bg-border; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-text-secondary; }
+
+  h1, h2, h3, h4 { @apply font-display tracking-tight; }
+  a { @apply text-inherit no-underline; }
+  ul, ol { list-style: none; padding: 0; margin: 0; }
+  button { cursor: pointer; border: none; background: none; font-family: inherit; }
+  img { max-width: 100%; height: auto; display: block; }
+}
+
+/* ── Component Layer ─────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Brutalist Card ────────────────────────────────────────────────────── */
+  .brutalist-card {
+    @apply bg-bg-card border-2 border-border shadow-brutalist transition-all duration-300;
+  }
+  .brutalist-card:hover {
+    @apply shadow-brutalist-hover -translate-y-1 -translate-x-1;
+  }
+
+  /* ── Section label ─────────────────────────────────────────────────────── */
+  .section-label {
+    @apply flex items-center gap-2 text-text-primary text-xs font-mono font-bold tracking-widest uppercase;
+  }
+
+  /* ── Buttons ───────────────────────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-xs font-mono font-bold tracking-widest text-white bg-accent-dark border-2 border-accent-dark transition-all duration-300;
+  }
+  .btn-primary:hover {
+    @apply bg-bg text-accent-dark translate-x-1 -translate-y-1 shadow-brutalist;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-xs font-mono font-bold tracking-widest text-text-primary border-2 border-border transition-all duration-300 bg-white;
+  }
+  .btn-outline:hover {
+    @apply bg-accent-beige translate-x-1 -translate-y-1 shadow-brutalist;
+  }
+
+  /* ── Input ─────────────────────────────────────────────────────────────── */
+  .form-input {
+    @apply w-full bg-white border-2 border-border px-5 py-3 text-text-primary font-mono text-sm outline-none transition-all duration-200 placeholder:text-text-muted rounded-none;
+  }
+  .form-input:focus {
+    @apply bg-accent-blue/10 shadow-brutalist -translate-y-1 -translate-x-1;
+  }
+
+  /* ── Badge ─────────────────────────────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase border-2 border-border bg-white;
+  }
+  .badge-audio { @apply bg-accent-beige; }
+  .badge-video { @apply bg-accent-blue; }
+  .badge-text { @apply bg-bg-alt; }
+  .badge-featured { @apply bg-accent-dark text-white; }
+
+  /* ── Dotted Divider ────────────────────────────────────────────────────── */
+  .dotted-divider {
+    @apply w-full border-t-[3px] border-dotted border-border my-12 opacity-30;
+  }
+}
+
+/* ── Utility Layer ───────────────────────────────────────────────────────── */
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .both-fill { animation-fill-mode: both; }
+
+  /* Custom text outline utility */
+  .text-outline {
+    -webkit-text-stroke: 1px #111;
+    color: transparent;
+  }
+}
+
+/* Audio/Video player range input - brutalist style */
+input[type='range'] {
+  @apply appearance-none w-full h-2 outline-none cursor-pointer border-2 border-border bg-white;
+  background: linear-gradient(to right, #111 var(--progress, 0%), #fff var(--progress, 0%));
+}
+input[type='range']::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 bg-accent-dark border-2 border-border rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)];
+}
+input[type='range']::-moz-range-thumb {
+  @apply w-4 h-4 bg-accent-dark border-2 border-border rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)];
+}
