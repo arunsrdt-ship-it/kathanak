@@ -33,7 +33,7 @@ export default function AdminPoetries() {
   const filtered = poetries.filter(p => p.title.toLowerCase().includes(search.toLowerCase()) || p.type.includes(search.toLowerCase()));
 
   return (
-    <div className="p-8 md:p-12">
+    <div className="p-4 sm:p-8 md:p-12 max-w-full overflow-hidden">
       <div className="mb-12 border-b-2 border-border pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="font-display text-4xl font-black uppercase tracking-tighter mb-2">ARCHIVES</h1>

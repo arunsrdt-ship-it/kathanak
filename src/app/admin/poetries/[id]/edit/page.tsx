@@ -9,7 +9,7 @@ import { ArrowLeft, Save } from 'lucide-react';
 
 export default function EditPoetry() {
   return (
-    <div className="p-8 md:p-12 max-w-4xl">
+    <div className="p-4 sm:p-8 md:p-12 max-w-4xl max-w-full overflow-hidden">
       <div className="mb-12 border-b-2 border-border pb-6 flex items-center gap-4">
         <Link href="/admin/poetries" className="w-10 h-10 border-2 border-border rounded-full flex items-center justify-center hover:bg-white brutalist-card shadow-none">
           <ArrowLeft size={16} />

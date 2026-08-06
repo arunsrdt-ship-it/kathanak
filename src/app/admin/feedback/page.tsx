@@ -28,7 +28,7 @@ export default function AdminFeedback() {
   };
 
   return (
-    <div className="p-8 md:p-12">
+    <div className="p-4 sm:p-8 md:p-12 max-w-full overflow-hidden">
       <div className="mb-12 border-b-2 border-border pb-6">
         <h1 className="font-display text-4xl font-black uppercase tracking-tighter mb-2">SYSTEM INBOX</h1>
         <p className="font-mono text-xs font-bold tracking-widest uppercase text-text-muted">MANAGE INCOMING TRANSMISSIONS</p>

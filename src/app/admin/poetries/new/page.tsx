@@ -54,7 +54,7 @@ export default function NewPoetry() {
   };
 
   return (
-    <div className="p-8 md:p-12 max-w-4xl">
+    <div className="p-4 sm:p-8 md:p-12 max-w-4xl max-w-full overflow-hidden">
       
       <div className="mb-12 border-b-2 border-border pb-6 flex items-center justify-between">
         <div className="flex items-center gap-4">

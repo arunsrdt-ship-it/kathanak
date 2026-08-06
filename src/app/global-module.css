@@ -18,8 +18,10 @@
   }
 
   body {
-    @apply bg-bg text-text-primary font-body overflow-x-hidden selection:bg-accent-blue selection:text-text-primary;
+    @apply bg-bg text-text-primary font-body overflow-x-hidden selection:bg-accent-blue selection:text-text-primary break-words;
     min-height: 100dvh;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   ::-webkit-scrollbar { width: 8px; }
@@ -27,8 +29,9 @@
   ::-webkit-scrollbar-thumb { @apply bg-border; }
   ::-webkit-scrollbar-thumb:hover { @apply bg-text-secondary; }
 
-  h1, h2, h3, h4 { @apply font-display tracking-tight; }
-  a { @apply text-inherit no-underline; }
+  h1, h2, h3, h4 { @apply font-display tracking-tight break-words hyphens-auto; }
+  a { @apply text-inherit no-underline break-words; }
+  p, span, div, text { @apply break-words; }
   ul, ol { list-style: none; padding: 0; margin: 0; }
   button { cursor: pointer; border: none; background: none; font-family: inherit; }
   img { max-width: 100%; height: auto; display: block; }

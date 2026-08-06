@@ -37,7 +37,7 @@ export default function AdminConfig() {
   if (!config) return <div className="p-12 font-mono font-bold tracking-widest uppercase text-red-500">ERROR LOADING CONFIG</div>;
 
   return (
-    <div className="p-8 md:p-12 max-w-4xl">
+    <div className="p-4 sm:p-8 md:p-12 max-w-4xl max-w-full overflow-hidden">
       <div className="mb-12 border-b-2 border-border pb-6">
         <h1 className="font-display text-4xl font-black uppercase tracking-tighter mb-2">SYSTEM CONFIGURATION</h1>
         <p className="font-mono text-xs font-bold tracking-widest uppercase text-text-muted">EDIT HOMEPAGE HERO CONTENT</p>
