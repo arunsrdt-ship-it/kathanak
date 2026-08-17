@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://kathanak.in',
+    url: 'https://kathanak.vercel.app',
     siteName: 'Kathanak',
     title: 'Kathanak — शब्दों का संसार',
     description: 'A personal poetry platform — listen, watch, and read original poetries.',
@@ -27,6 +27,10 @@ export const metadata: Metadata = {
     description: 'A personal poetry platform — listen, watch, and read original poetries.',
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
