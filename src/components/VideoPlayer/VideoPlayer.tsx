@@ -43,7 +43,7 @@ export default function VideoPlayer({ poetryId, title, thumbnailUrl }: Props) {
 
       <div className="relative w-full h-full border-2 border-border bg-bg overflow-hidden">
         <video ref={videoRef} src={src} preload="auto"
-          poster={thumbnailUrl} className="w-full h-full object-contain grayscale"
+          poster={thumbnailUrl} className="w-full h-full object-contain"
           onTimeUpdate={onTimeUpdate} onLoadedMetadata={onLoaded}
           onCanPlay={() => setLoading(false)} onEnded={onEnd} onError={onError} />
 
