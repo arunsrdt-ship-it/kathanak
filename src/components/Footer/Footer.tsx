@@ -20,9 +20,9 @@ export default function Footer() {
                Transforming text into visual poetry. A brutalist approach to emotion and sound.
              </p>
              <div className="flex items-center gap-4 mt-2">
-               <a href="#" className="w-10 h-10 rounded-full border-2 border-border flex items-center justify-center hover:bg-accent-beige transition-colors brutalist-card shadow-none"><Mail size={16} /></a>
-               <a href="#" className="w-10 h-10 rounded-full border-2 border-border flex items-center justify-center hover:bg-accent-beige transition-colors brutalist-card shadow-none"><Globe size={16} /></a>
-               <a href="#" className="w-10 h-10 rounded-full border-2 border-border flex items-center justify-center hover:bg-accent-beige transition-colors brutalist-card shadow-none"><MessageCircle size={16} /></a>
+               <a href="mailto:kathanak19@outlook.com" className="w-10 h-10 rounded-full border-2 border-border flex items-center justify-center hover:bg-accent-beige transition-colors brutalist-card shadow-none"><Mail size={16} /></a>
+               <a href="https://kathanak.vercel.app" className="w-10 h-10 rounded-full border-2 border-border flex items-center justify-center hover:bg-accent-beige transition-colors brutalist-card shadow-none"><Globe size={16} /></a>
+               <a href="https://www.instagram.com/kathanak_19" className="w-10 h-10 rounded-full border-2 border-border flex items-center justify-center hover:bg-accent-beige transition-colors brutalist-card shadow-none"><MessageCircle size={16} /></a>
              </div>
           </div>
 

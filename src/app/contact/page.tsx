@@ -43,7 +43,7 @@ export default function ContactPage() {
                      </div>
                      <div>
                        <h3 className="font-mono text-[10px] font-bold uppercase tracking-widest text-text-muted mb-1">DIRECT INBOX</h3>
-                       <p className="font-display text-xl font-bold">hello@kathanak.in</p>
+                       <p className="font-display text-xl font-bold">kathanak19@outlook.com</p>
                      </div>
                    </div>
 
@@ -53,7 +53,7 @@ export default function ContactPage() {
                      </div>
                      <div>
                        <h3 className="font-mono text-[10px] font-bold uppercase tracking-widest text-text-muted mb-1">HQ LOCATION</h3>
-                       <p className="font-display text-xl font-bold">Mumbai, India</p>
+                       <p className="font-display text-xl font-bold">Lucknow, Uttar Pradesh, India</p>
                      </div>
                    </div>
                 </div>
