@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { fetchAuthStatus } from '@/lib/api';
-import { CheckCircle2, AlertTriangle, ExternalLink, RefreshCw } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, ExternalLink, RefreshCw, Database, Cpu, Tag } from 'lucide-react';
 
 export default function AdminDashboard() {
-  const [status, setStatus] = useState<{ authorized: boolean; message: string } | null>(null);
+  const [status,  setStatus]  = useState<{ authorized: boolean; message: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   const checkStatus = async () => {
@@ -13,7 +13,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetchAuthStatus();
       setStatus({ authorized: res.authorized, message: res.message });
-    } catch (err) {
+    } catch {
       setStatus({ authorized: false, message: 'Failed to connect to backend API.' });
     }
     setLoading(false);
@@ -21,59 +21,84 @@ export default function AdminDashboard() {
 
   useEffect(() => { checkStatus(); }, []);
 
-  // Use the backend's base URL for the OAuth redirect
   const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-  // Note: we need to pass the admin key in the query string or something because this is a browser redirect,
-  // but since we redirect directly, headers won't be sent. 
-  // Wait, the backend initiateAuth expects X-Admin-Key. 
-  // If we just do window.location.href, it's a GET without headers.
-  // We need to fetch the URL first, or pass token in URL.
-  // Actually, the simplest way to hit a protected GET route from the browser is to fetch it.
-  
+
   const handleConnectDrive = async () => {
     const key = localStorage.getItem('kathanak_admin_key');
     window.location.href = `${apiBase}/auth/google?key=${key}`;
   };
 
+  const systemItems = [
+    { icon: <Database size={13} />, label: 'DATABASE',   value: 'ONLINE',      color: 'text-emerald-400/80' },
+    { icon: <Cpu size={13} />,      label: 'FRONTEND',   value: 'OPERATIONAL', color: 'text-emerald-400/80' },
+    { icon: <Tag size={13} />,      label: 'API VERSION',value: '1.0.0',       color: 'text-white/50' },
+  ];
+
   return (
-    <div className="p-4 sm:p-8 md:p-12 max-w-full overflow-hidden">
-      <div className="mb-12 border-b-2 border-border pb-6">
-        <h1 className="font-display text-4xl font-black uppercase tracking-tighter mb-2">SYSTEM OVERVIEW</h1>
-        <p className="font-mono text-xs font-bold tracking-widest uppercase text-text-muted">KATHANAK PLATFORM ADMINISTRATION PANEL</p>
+    <div className="p-6 md:p-10 max-w-full">
+      {/* Page header */}
+      <div className="mb-10 pb-6 border-b border-white/8">
+        <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/25 mb-2">
+          KATHANAK PLATFORM
+        </p>
+        <h1 className="font-display text-3xl font-bold tracking-tight text-white/85">
+          System Overview
+        </h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        {/* Google Drive Status Module */}
-        <div className="brutalist-card bg-white p-8">
-          <div className="flex items-center justify-between mb-8 border-b-2 border-border pb-4">
-             <h2 className="font-display text-2xl font-black uppercase tracking-tighter">STORAGE UPLINK</h2>
-             <button onClick={checkStatus} className="p-2 border-2 border-border rounded-full hover:bg-bg-alt brutalist-card shadow-none">
-               <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-             </button>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+        {/* ── Google Drive Status ──────────────────────────────────── */}
+        <div
+          className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm"
+          style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}
+        >
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/8">
+            <h2 className="font-display text-lg font-bold tracking-tight text-white/75">
+              Storage Uplink
+            </h2>
+            <button
+              onClick={checkStatus}
+              className="h-7 w-7 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/40 hover:text-white/70 hover:bg-white/10 transition-all"
+            >
+              <RefreshCw size={12} className={loading ? 'animate-spin' : ''} />
+            </button>
           </div>
 
           {loading ? (
-            <div className="animate-pulse flex flex-col gap-4">
-               <div className="h-12 bg-bg-alt w-full border-2 border-border" />
-               <div className="h-4 bg-bg-alt w-2/3" />
+            <div className="flex flex-col gap-3 animate-pulse">
+              <div className="h-12 rounded-xl bg-white/6 w-full" />
+              <div className="h-3 rounded bg-white/4 w-2/3" />
             </div>
           ) : (
-            <div className="flex flex-col gap-6">
-              <div className={`p-4 border-2 border-border font-mono text-xs font-bold tracking-widest uppercase flex items-center gap-4 brutalist-card shadow-none
-                ${status?.authorized ? 'bg-green-50 text-green-700 border-green-700' : 'bg-red-50 text-red-700 border-red-700'}`}>
-                {status?.authorized ? <CheckCircle2 size={24} /> : <AlertTriangle size={24} />}
-                {status?.message}
+            <div className="flex flex-col gap-4">
+              {/* Status pill */}
+              <div
+                className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${
+                  status?.authorized
+                    ? 'border-emerald-500/20 bg-emerald-500/8 text-emerald-300/80'
+                    : 'border-red-500/20 bg-red-500/8 text-red-300/80'
+                }`}
+              >
+                {status?.authorized
+                  ? <CheckCircle2 size={16} />
+                  : <AlertTriangle size={16} />
+                }
+                <span className="font-mono text-[10px] font-bold tracking-widest uppercase">
+                  {status?.message}
+                </span>
               </div>
 
               {!status?.authorized && (
-                <div className="bg-bg-alt border-2 border-border p-6 flex flex-col gap-4">
-                  <p className="font-prose text-lg text-text-primary">
-                    To upload audio and video files, Kathanak needs permission to store files in your Google Drive. 
-                    Click the button below to authorize.
+                <div className="rounded-xl border border-white/6 bg-white/3 p-5 flex flex-col gap-4">
+                  <p className="text-sm text-white/45 leading-relaxed" style={{ fontFamily: "'Crimson Pro', serif" }}>
+                    To upload audio and video files, Kathanak needs permission to store files in your Google Drive. Click below to authorize.
                   </p>
-                  <button onClick={handleConnectDrive} className="btn-primary w-fit shadow-brutalist hover:shadow-brutalist-hover">
-                    AUTHORIZE GOOGLE DRIVE <ExternalLink size={16} />
+                  <button
+                    onClick={handleConnectDrive}
+                    className="btn-primary w-fit"
+                  >
+                    AUTHORIZE GOOGLE DRIVE <ExternalLink size={13} />
                   </button>
                 </div>
               )}
@@ -81,27 +106,38 @@ export default function AdminDashboard() {
           )}
         </div>
 
-        {/* Quick Stats (Placeholder) */}
-        <div className="brutalist-card bg-bg-alt p-8 flex flex-col justify-between">
-           <div>
-             <h2 className="font-display text-2xl font-black uppercase tracking-tighter mb-4 border-b-2 border-border pb-4">SYSTEM STATUS</h2>
-             <ul className="flex flex-col gap-4 font-mono text-sm font-bold tracking-widest uppercase">
-               <li className="flex justify-between border-b-2 border-dotted border-border pb-2">
-                 <span className="text-text-muted">DATABASE</span>
-                 <span className="text-green-600">ONLINE</span>
-               </li>
-               <li className="flex justify-between border-b-2 border-dotted border-border pb-2">
-                 <span className="text-text-muted">FRONTEND</span>
-                 <span className="text-green-600">OPERATIONAL</span>
-               </li>
-               <li className="flex justify-between border-b-2 border-dotted border-border pb-2">
-                 <span className="text-text-muted">API VERSION</span>
-                 <span>1.0.0</span>
-               </li>
-             </ul>
-           </div>
-        </div>
+        {/* ── System Status ────────────────────────────────────────── */}
+        <div
+          className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm"
+          style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}
+        >
+          <h2 className="font-display text-lg font-bold tracking-tight text-white/75 mb-6 pb-4 border-b border-white/8">
+            System Status
+          </h2>
+          <ul className="flex flex-col gap-2">
+            {systemItems.map(({ icon, label, value, color }) => (
+              <li
+                key={label}
+                className="flex items-center justify-between rounded-xl border border-white/6 bg-white/3 px-4 py-3"
+              >
+                <div className="flex items-center gap-2.5 font-mono text-[10px] font-bold tracking-widest uppercase text-white/35">
+                  {icon} {label}
+                </div>
+                <span className={`font-mono text-[10px] font-bold tracking-widest uppercase ${color}`}>
+                  {value}
+                </span>
+              </li>
+            ))}
+          </ul>
 
+          {/* Decorative glow dot */}
+          <div className="mt-6 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/60 animate-pulse" />
+            <span className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-white/20">
+              ALL SYSTEMS NOMINAL
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

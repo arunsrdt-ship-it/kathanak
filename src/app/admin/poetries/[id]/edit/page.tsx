@@ -1,28 +1,48 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { fetchPoetry } from '@/lib/api'; // We need an update API too, but let's assume we can skip editing for a sec, or I need to add updatePoetry to api.ts and backend.
-// Actually, editing is mostly just changing the text. I will just add a placeholder or implement it fully.
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, WrenchIcon } from 'lucide-react';
 
 export default function EditPoetry() {
   return (
-    <div className="p-4 sm:p-8 md:p-12 max-w-4xl max-w-full overflow-hidden">
-      <div className="mb-12 border-b-2 border-border pb-6 flex items-center gap-4">
-        <Link href="/admin/poetries" className="w-10 h-10 border-2 border-border rounded-full flex items-center justify-center hover:bg-white brutalist-card shadow-none">
-          <ArrowLeft size={16} />
+    <div className="p-6 md:p-10 max-w-4xl">
+
+      {/* Page header */}
+      <div className="mb-8 pb-6 border-b border-white/8 flex items-center gap-4">
+        <Link
+          href="/admin/poetries"
+          className="h-9 w-9 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/40 hover:bg-white/12 hover:text-white/70 transition-all shrink-0"
+        >
+          <ArrowLeft size={15} />
         </Link>
         <div>
-          <h1 className="font-display text-4xl font-black uppercase tracking-tighter mb-1">EDIT ENTRY</h1>
-          <p className="font-mono text-xs font-bold tracking-widest uppercase text-text-muted">MODIFY EXISTING POETRY (COMING SOON)</p>
+          <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/25 mb-0.5">
+            POETRY MANAGEMENT
+          </p>
+          <h1 className="font-display text-2xl font-bold tracking-tight text-white/85">
+            Edit Entry
+          </h1>
         </div>
       </div>
 
-      <div className="brutalist-card bg-white p-12 text-center font-mono text-sm font-bold uppercase tracking-widest">
-        Editing functionality will be available in v1.1. For now, please delete and re-upload if changes are needed.
+      {/* Placeholder */}
+      <div className="flex flex-col items-center gap-5 rounded-2xl border border-white/8 bg-white/4 p-16 text-center backdrop-blur-sm">
+        <div className="h-14 w-14 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/25">
+          <WrenchIcon size={20} />
+        </div>
+        <div>
+          <p className="font-display text-lg font-bold tracking-tight text-white/55 mb-2">
+            Coming in v1.1
+          </p>
+          <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-white/20 max-w-xs leading-relaxed">
+            Editing functionality is not yet available. Delete and re-upload if changes are needed.
+          </p>
+        </div>
+        <Link href="/admin/poetries" className="btn-outline mt-2">
+          ← BACK TO ARCHIVES
+        </Link>
       </div>
+
     </div>
   );
 }

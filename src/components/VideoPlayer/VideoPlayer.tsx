@@ -30,82 +30,108 @@ export default function VideoPlayer({ poetryId, title, thumbnailUrl }: Props) {
     else         { v.play().then(() => setPlaying(true)).catch(() => setError(true)); }
   };
 
-  const seek  = (v: number) => { videoRef.current!.currentTime = v; setCurrent(v); };
-  const skip  = (s: number) => seek(Math.min(Math.max(current + s, 0), duration));
+  const seek     = (v: number) => { videoRef.current!.currentTime = v; setCurrent(v); };
+  const skip     = (s: number) => seek(Math.min(Math.max(current + s, 0), duration));
   const fullscreen = () => wrapRef.current?.requestFullscreen?.();
-
-  const progress = duration ? (current / duration) * 100 : 0;
+  const progress   = duration ? (current / duration) * 100 : 0;
 
   return (
-    <div ref={wrapRef}
-      className="relative w-full aspect-video bg-white border-2 border-border brutalist-card overflow-hidden group p-2"
-      onMouseEnter={() => setControls(true)} onMouseLeave={() => setControls(false)}>
+    <div
+      ref={wrapRef}
+      className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/8 bg-black group"
+      style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.6)' }}
+      onMouseEnter={() => setControls(true)}
+      onMouseLeave={() => setControls(false)}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        preload="auto"
+        poster={thumbnailUrl}
+        className="w-full h-full object-contain"
+        onTimeUpdate={onTimeUpdate}
+        onLoadedMetadata={onLoaded}
+        onCanPlay={() => setLoading(false)}
+        onEnded={onEnd}
+        onError={onError}
+      />
 
-      <div className="relative w-full h-full border-2 border-border bg-bg overflow-hidden">
-        <video ref={videoRef} src={src} preload="auto"
-          poster={thumbnailUrl} className="w-full h-full object-contain"
-          onTimeUpdate={onTimeUpdate} onLoadedMetadata={onLoaded}
-          onCanPlay={() => setLoading(false)} onEnded={onEnd} onError={onError} />
-
-        {/* Loading */}
-        {loading && !error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-20">
-             <div className="font-mono text-xs font-bold tracking-widest uppercase animate-pulse">BUFFERING_STREAM...</div>
+      {/* Loading */}
+      {loading && !error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-20">
+          <div className="font-mono text-[10px] font-bold tracking-widest uppercase text-white/40 animate-pulse">
+            Loading...
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Error */}
-        {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white z-20">
-            <p className="font-mono text-xs font-bold text-red-600 uppercase">ERR: VIDEO_UNAVAILABLE</p>
-          </div>
-        )}
+      {/* Error */}
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-20">
+          <p className="font-mono text-[10px] font-bold text-red-400/70 uppercase tracking-widest">
+            Video unavailable
+          </p>
+        </div>
+      )}
 
-        {/* Click to play overlay */}
-        {!error && (
-          <div className="absolute inset-0 cursor-pointer" onClick={toggle}>
-            {!playing && !loading && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full bg-accent-blue border-2 border-border flex items-center justify-center text-text-primary shadow-brutalist transition-transform hover:scale-105">
-                  <Play size={26} fill="currentColor" className="translate-x-1" />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Controls overlay */}
-        {!error && (
-          <div className={`absolute bottom-0 left-0 right-0 p-4 bg-white border-t-2 border-border transition-transform duration-300 ${controls || !playing ? 'translate-y-0' : 'translate-y-full'}`}>
-            <div className="flex flex-col gap-2">
-              
-              {/* Progress */}
-              <input type="range" min={0} max={duration || 1} step={0.1} value={current}
-                onChange={e => seek(Number(e.target.value))}
-                className="w-full" style={{ '--progress': `${progress}%` } as React.CSSProperties} />
-
-              <div className="flex items-center justify-between mt-2">
-                <div className="flex items-center gap-4">
-                  <button onClick={toggle} className="w-8 h-8 flex items-center justify-center hover:scale-110 transition-transform">
-                    {playing ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="translate-x-px" />}
-                  </button>
-                  <button onClick={() => skip(-10)} className="hover:scale-110 transition-transform"><RotateCcw size={16} strokeWidth={2.5}/></button>
-                  <button onClick={() => skip(10)} className="hover:scale-110 transition-transform"><RotateCw size={16} strokeWidth={2.5}/></button>
-                  <button onClick={() => { setMuted(m => !m); videoRef.current!.muted = !muted; }} className="hover:scale-110 transition-transform ml-2">
-                    {muted ? <VolumeX size={16} strokeWidth={2.5}/> : <Volume2 size={16} strokeWidth={2.5}/>}
-                  </button>
-                  <span className="font-mono text-[10px] font-bold tracking-widest hidden sm:block border-l-2 border-border pl-4 ml-2">
-                    {formatDuration(Math.floor(current))} / {formatDuration(Math.floor(duration))}
-                  </span>
-                </div>
-                <button onClick={fullscreen} className="hover:scale-110 transition-transform">
-                  <Maximize2 size={16} strokeWidth={2.5} />
-                </button>
+      {/* Click overlay to play/pause */}
+      {!error && (
+        <div className="absolute inset-0 cursor-pointer z-10" onClick={toggle}>
+          {!playing && !loading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className="h-16 w-16 rounded-full border border-white/20 bg-white/10 backdrop-blur-lg flex items-center justify-center text-white transition-transform hover:scale-110"
+                style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+              >
+                <Play size={22} fill="currentColor" className="translate-x-0.5" />
               </div>
             </div>
+          )}
+        </div>
+      )}
+
+      {/* Controls overlay */}
+      {!error && (
+        <div
+          className={`absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent backdrop-blur-sm transition-all duration-300 z-20 ${
+            controls || !playing ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+          }`}
+        >
+          {/* Progress */}
+          <input
+            type="range"
+            min={0}
+            max={duration || 1}
+            step={0.1}
+            value={current}
+            onChange={e => seek(Number(e.target.value))}
+            className="w-full mb-3"
+            style={{ '--progress': `${progress}%` } as React.CSSProperties}
+          />
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button onClick={toggle} className="text-white/70 hover:text-white transition-colors">
+                {playing ? <Pause size={15} fill="currentColor" /> : <Play size={15} fill="currentColor" className="translate-x-px" />}
+              </button>
+              <button onClick={() => skip(-10)} className="text-white/50 hover:text-white transition-colors"><RotateCcw size={13} /></button>
+              <button onClick={() => skip(10)} className="text-white/50 hover:text-white transition-colors"><RotateCw size={13} /></button>
+              <button
+                onClick={() => { setMuted(m => !m); videoRef.current!.muted = !muted; }}
+                className="text-white/50 hover:text-white transition-colors"
+              >
+                {muted ? <VolumeX size={13} /> : <Volume2 size={13} />}
+              </button>
+              <span className="font-mono text-[9px] font-bold tracking-widest text-white/35 hidden sm:block pl-2 border-l border-white/10 ml-1">
+                {formatDuration(Math.floor(current))} / {formatDuration(Math.floor(duration))}
+              </span>
+            </div>
+            <button onClick={fullscreen} className="text-white/40 hover:text-white transition-colors">
+              <Maximize2 size={13} />
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

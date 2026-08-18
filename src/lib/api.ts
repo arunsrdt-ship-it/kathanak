@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/+$/, '');
 
 // ── Admin Key Management ──────────────────────────────────────────────────
 export const getAdminKey = () => {
@@ -107,9 +107,17 @@ export async function fetchPoetrys(params: FetchPoetryParams = {}): Promise<Pagi
 
 // ── Fetch site config ─────────────────────────────────────────────────────
 export async function fetchConfig(): Promise<{ success: boolean; data: SiteConfig }> {
-  const res = await fetch(`${API_BASE}/config`, { next: { revalidate: 60 } });
-  if (!res.ok) throw new Error('Failed to fetch config');
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/config`);
+    if (!res.ok) {
+      const errJson = await res.json().catch(() => ({}));
+      throw new Error(errJson.message || `Failed to fetch config (Status ${res.status})`);
+    }
+    return await res.json();
+  } catch (err: any) {
+    console.warn('fetchConfig warning:', err.message);
+    throw err;
+  }
 }
 
 // ── Fetch single poetry ───────────────────────────────────────────────────
@@ -172,13 +180,16 @@ export async function fetchAuthStatus(): Promise<{ success: boolean; authorized:
 }
 
 // ── ADMIN: Update config ──────────────────────────────────────────────────
-export async function updateConfig(data: Partial<SiteConfig>): Promise<{ success: boolean }> {
+export async function updateConfig(data: Partial<SiteConfig>): Promise<{ success: boolean; data?: SiteConfig }> {
   const res = await fetch(`${API_BASE}/config`, {
     method: 'PATCH',
     headers: { ...getHeaders(true), 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to update config');
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || `Failed to update config (Status ${res.status})`);
+  }
   return res.json();
 }
 

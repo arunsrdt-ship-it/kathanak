@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
         hostname: 'lh3.googleusercontent.com',
         pathname: '/d/**',
       },
+      {
+        // CloudFront CDN for Nexum background video / assets
+        protocol: 'https',
+        hostname: 'd8j0ntlcm91z4.cloudfront.net',
+      },
+      {
+        // Pravatar avatar CDN for Nexum testimonial card
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      },
     ],
   },
   async rewrites() {
