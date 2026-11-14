@@ -96,8 +96,8 @@ export default function EditPoetry() {
     try {
       if (media && form.type !== 'text') {
         setUploadProgress(0);
-        const sessionUrl = await createMediaUploadSession(media, form.type);
-        const driveFileId = await uploadMediaToDrive(sessionUrl, media, setUploadProgress);
+        const uploadToken = await createMediaUploadSession(media, form.type);
+        const driveFileId = await uploadMediaToDrive(uploadToken, media, setUploadProgress);
         body.append('driveFileId', driveFileId);
       }
       if (thumbnail) body.append('thumbnail', thumbnail);
@@ -182,7 +182,7 @@ export default function EditPoetry() {
               <div>
                 <span className={labelClass}>{form.type === 'audio' ? 'Audio file' : 'Video file'} {poetry.hasMedia ? '(optional — leave empty to keep the current file)' : '(required)'}</span>
                 <p className="mt-1 text-xs leading-relaxed text-ink/70">
-                  Uploads go directly from your device to Google Drive, so large files do not pass through the API server. Site players fetch the file after saving.
+                  Large files are sent in small chunks through the API to Google Drive, avoiding one oversized request. Site players fetch the file after saving.
                   {form.type === 'audio' ? ' Audio limit: 100 MB.' : ' Video limit: 500 MB.'}
                 </p>
               </div>
@@ -212,7 +212,7 @@ export default function EditPoetry() {
               {saving && uploadProgress !== null && (
                 <div role="status" aria-live="polite">
                   <div className="mb-2 flex justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-ink/65">
-                    <span>{uploadProgress < 100 ? 'Uploading directly to Google Drive' : 'Saving poetry entry'}</span>
+                    <span>{uploadProgress < 100 ? 'Uploading media to Google Drive' : 'Saving poetry entry'}</span>
                     <span>{uploadProgress}%</span>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-ink/10">

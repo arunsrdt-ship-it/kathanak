@@ -126,8 +126,8 @@ export default function NewPoetry() {
       let driveFileId: string | null = null;
       if (file && (formData.type === 'audio' || formData.type === 'video')) {
         setUploadProgress(0);
-        const sessionUrl = await createMediaUploadSession(file, formData.type);
-        driveFileId = await uploadMediaToDrive(sessionUrl, file, setUploadProgress);
+        const uploadToken = await createMediaUploadSession(file, formData.type);
+        driveFileId = await uploadMediaToDrive(uploadToken, file, setUploadProgress);
       }
 
       const data = new FormData();
@@ -260,7 +260,7 @@ export default function NewPoetry() {
           <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
             <FieldLabel>{formData.type === 'audio' ? 'Audio file (required)' : 'Video file (required)'}</FieldLabel>
             <p className="mt-1 text-xs leading-relaxed text-ink/70">
-              Uploads go directly from your device to Google Drive, so large media files do not pass through the API server. Site players can fetch the file after saving.
+              Large files are sent in small chunks through the API to Google Drive, avoiding one oversized request. Site players can fetch the file after saving.
               {formData.type === 'audio' ? ' Audio limit: 100 MB.' : ' Video limit: 500 MB.'}
             </p>
             <div className="relative mt-3 flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-ink/12 bg-ink/3 py-10 cursor-pointer group hover:bg-ink/6 hover:border-ink/20 transition-all">
@@ -302,7 +302,7 @@ export default function NewPoetry() {
             {loading && uploadProgress !== null && (
               <div className="mt-4" role="status" aria-live="polite">
                 <div className="mb-2 flex justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-ink/65">
-                  <span>{uploadProgress < 100 ? 'Uploading directly to Google Drive' : 'Saving poetry entry'}</span>
+                  <span>{uploadProgress < 100 ? 'Uploading media to Google Drive' : 'Saving poetry entry'}</span>
                   <span>{uploadProgress}%</span>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-ink/10">

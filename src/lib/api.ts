@@ -253,38 +253,42 @@ export async function createMediaUploadSession(file: File, type: 'audio' | 'vide
     body: JSON.stringify({ fileName: file.name, mimeType: file.type, fileSize: file.size, type }),
   });
   const payload = await res.json().catch(() => ({}));
-  if (!res.ok || !payload.data?.sessionUrl) {
+  if (!res.ok || !payload.data?.uploadToken) {
     throw new Error(payload.message || `Could not prepare media upload (${res.status})`);
   }
-  return payload.data.sessionUrl;
+  return payload.data.uploadToken;
 }
 
-// Send media in resumable 8 MB chunks directly to Google Drive. This keeps
-// large video bytes out of the Render API request, which was returning 502s.
+// Send media in resumable chunks through the API. The backend forwards each
+// small chunk to Drive, avoiding both browser-to-Drive CORS and oversized
+// single requests to the Render service.
 export async function uploadMediaToDrive(
-  sessionUrl: string,
+  uploadToken: string,
   file: File,
   onProgress: (percent: number) => void,
 ): Promise<string> {
-  if (!sessionUrl.startsWith('https://www.googleapis.com/upload/drive/v3/files?')) {
-    throw new Error('Google Drive returned an invalid upload session');
+  if (!uploadToken.includes('.')) {
+    throw new Error('The backend returned an invalid upload session');
   }
 
   const chunkSize = 8 * 1024 * 1024; // Multiple of Google's 256 KB chunk size.
   let start = 0;
+  let noProgressRetries = 0;
 
   const sendChunk = (from: number, to: number) => new Promise<XMLHttpRequest>((resolve, reject) => {
     const request = new XMLHttpRequest();
-    request.open('PUT', sessionUrl);
+    request.open('PUT', `${API_BASE}/poetry/upload-session/chunk`);
+    request.setRequestHeader('X-Admin-Key', getAdminKey() || '');
+    request.setRequestHeader('X-Upload-Token', uploadToken);
     request.setRequestHeader('Content-Range', `bytes ${from}-${to - 1}/${file.size}`);
-    request.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+    request.setRequestHeader('Content-Type', 'application/octet-stream');
     request.upload.onprogress = event => {
       if (event.lengthComputable) onProgress(Math.min(99, Math.round(((from + event.loaded) / file.size) * 100)));
     };
     request.onload = () => resolve(request);
-    request.onerror = () => reject(new Error('Network interrupted while uploading to Google Drive'));
-    request.ontimeout = () => reject(new Error('Google Drive upload timed out. Please retry the upload.'));
-    request.timeout = 120_000;
+    request.onerror = () => reject(new Error('Network interrupted while uploading media'));
+    request.ontimeout = () => reject(new Error('Media upload timed out. Please retry the upload.'));
+    request.timeout = 180_000;
     request.send(file.slice(from, to));
   });
 
@@ -292,29 +296,36 @@ export async function uploadMediaToDrive(
     const end = Math.min(start + chunkSize, file.size);
     const response = await sendChunk(start, end);
 
-    if (response.status === 308) {
-      const range = response.getResponseHeader('Range');
-      const lastReceived = range?.match(/bytes=0-(\d+)/)?.[1];
-      start = lastReceived ? Number(lastReceived) + 1 : end;
-      onProgress(Math.min(99, Math.floor((start / file.size) * 100)));
+    let payload: any = {};
+    try {
+      payload = JSON.parse(response.responseText || '{}');
+    } catch {
+      throw new Error(`The API returned an invalid upload response (${response.status})`);
+    }
+    if (response.status !== 200 || !payload.success) {
+      throw new Error(payload.message || `Media upload failed (${response.status})`);
+    }
+
+    if (payload.data?.complete) {
+      if (!payload.data.fileId) throw new Error('Google Drive finished the upload but returned no file ID');
+      onProgress(100);
+      return payload.data.fileId as string;
+    }
+
+    const nextOffset = Number(payload.data?.nextOffset);
+    if (!Number.isSafeInteger(nextOffset) || nextOffset < 0 || nextOffset > file.size) {
+      throw new Error('Google Drive returned an invalid upload position. Please retry the upload.');
+    }
+    if (nextOffset === start) {
+      noProgressRetries += 1;
+      if (noProgressRetries > 3) {
+        throw new Error('Google Drive did not accept the upload chunk. Please retry the upload.');
+      }
       continue;
     }
-
-    if (response.status === 200 || response.status === 201) {
-      const uploadedFile = JSON.parse(response.responseText || '{}');
-      if (!uploadedFile.id) throw new Error('Google Drive finished the upload but returned no file ID');
-      onProgress(100);
-      return uploadedFile.id as string;
-    }
-
-    let message = `Google Drive upload failed (${response.status})`;
-    try {
-      const body = JSON.parse(response.responseText);
-      message = body.error?.message || body.message || message;
-    } catch {
-      if (response.statusText) message = `${message}: ${response.statusText}`;
-    }
-    throw new Error(message);
+    noProgressRetries = 0;
+    start = nextOffset;
+    onProgress(Math.min(99, Math.floor((start / file.size) * 100)));
   }
 
   throw new Error('Google Drive did not confirm that the upload completed');
