@@ -20,11 +20,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ReadDetailPage({ params }: Props) {
   const { slug } = await params;
-  const res = await fetchPoetry(slug).catch(() => null);
+  const [res, moreRes] = await Promise.all([
+    fetchPoetry(slug).catch(() => null),
+    fetchPoetrys({ type: 'text', limit: 4 }).catch(() => null),
+  ]);
   if (!res || res.data.type !== 'text') notFound();
 
   const poetry = res.data;
-  const moreRes = await fetchPoetrys({ type: 'text', limit: 4 }).catch(() => null);
   const more = (moreRes?.data ?? []).filter(p => p._id !== poetry._id).slice(0, 3);
 
   return (

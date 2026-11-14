@@ -97,7 +97,12 @@ export async function fetchPoetrys(params: FetchPoetryParams = {}): Promise<Pagi
   if (params.search) query.set('search', params.search);
   if (params.sort) query.set('sort', params.sort);
 
-  const res = await fetch(`${API_BASE}/poetry?${query}`, { cache: 'no-store' });
+  // Public content can be served from Next's persistent cache between visits.
+  // The short revalidation window avoids waiting on a sleeping API instance
+  // for every navigation while keeping edits reasonably fresh.
+  const res = await fetch(`${API_BASE}/poetry?${query}`, {
+    next: { revalidate: 60 },
+  });
 
   if (!res.ok) throw new Error(`Failed to fetch poetrys: ${res.statusText}`);
   return res.json();
@@ -151,7 +156,9 @@ export async function fetchConfig(): Promise<{ success: boolean; data: SiteConfi
 
 // ── Fetch single poetry ───────────────────────────────────────────────────
 export async function fetchPoetry(idOrSlug: string): Promise<SingleResponse> {
-  const res = await fetch(`${API_BASE}/poetry/${encodeURIComponent(idOrSlug)}`, { cache: 'no-store' });
+  const res = await fetch(`${API_BASE}/poetry/${encodeURIComponent(idOrSlug)}`, {
+    next: { revalidate: 30 },
+  });
   if (!res.ok) throw new Error(`Poetry not found: ${res.statusText}`);
   return res.json();
 }

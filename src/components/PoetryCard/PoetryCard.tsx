@@ -64,7 +64,11 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
         style={{ background: `radial-gradient(ellipse at 50% 0%, ${cfg.glowColor} 0%, transparent 60%)` }}
       />
 
-      <Link href={href} className="flex flex-col h-full relative">
+      <Link
+        href={href}
+        prefetch={featured ? true : undefined}
+        className="flex flex-col h-full relative"
+      >
 
         {/* Thumbnail */}
         <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl">
