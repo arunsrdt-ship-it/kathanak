@@ -9,26 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* Deep forest and warm parchment palette */
+        /* Warm paper, ink, and soft sage palette */
         bg: {
-          DEFAULT: '#17231f',
-          alt:     '#202d28',
-          card:    'rgba(244,234,214,0.06)',
+          DEFAULT: '#f7f3e9',
+          alt:     '#fffdf7',
+          card:    'rgba(45,61,49,0.035)',
         },
+        ink: '#26332d',
         accent: {
-          beige: 'rgba(255,220,150,0.15)',
-          blue:  'rgba(150,200,255,0.15)',
-          dark:  '#17231f',
-          gold:  '#d6aa62',
+          beige: 'rgba(182,126,52,0.12)',
+          blue:  'rgba(90,125,153,0.12)',
+          dark:  '#d2dfc9',
+          gold:  '#a96d32',
         },
         text: {
-          primary:   '#f3eee2',
-          secondary: 'rgba(243,238,226,0.72)',
-          muted:     'rgba(243,238,226,0.52)',
+          primary:   '#26332d',
+          secondary: 'rgba(38,51,45,0.76)',
+          muted:     'rgba(38,51,45,0.58)',
         },
         border: {
-          DEFAULT: 'rgba(244,234,214,0.13)',
-          light:   'rgba(244,234,214,0.08)',
+          DEFAULT: 'rgba(45,61,49,0.14)',
+          light:   'rgba(45,61,49,0.08)',
         },
       },
       fontFamily: {
@@ -47,11 +48,11 @@ const config: Config = {
         arch: '12rem 12rem 0 0',
       },
       boxShadow: {
-        glass:         '0 8px 32px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.08)',
-        'glass-hover': '0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.12)',
+        glass:         '0 8px 28px rgba(59,48,31,0.1), inset 0 0 0 1px rgba(45,61,49,0.06)',
+        'glass-hover': '0 18px 44px rgba(59,48,31,0.15), inset 0 0 0 1px rgba(45,61,49,0.09)',
         /* keep compat aliases */
-        brutalist:       '0 8px 32px rgba(0,0,0,0.4)',
-        'brutalist-hover': '0 20px 60px rgba(0,0,0,0.5)',
+        brutalist:       '0 8px 28px rgba(59,48,31,0.1)',
+        'brutalist-hover': '0 18px 44px rgba(59,48,31,0.15)',
       },
       backdropBlur: {
         glass: '16px',

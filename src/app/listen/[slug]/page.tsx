@@ -53,7 +53,7 @@ export default async function ListenDetailPage({ params }: Props) {
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="badge badge-audio"><Music size={11} strokeWidth={2.5}/> AUDIO</span>
                 {poetry.isFeatured && <span className="badge badge-featured">FEATURED</span>}
-                <span className="badge bg-white/10 text-text-primary">{poetry.language}</span>
+                <span className="badge bg-ink/10 text-text-primary">{poetry.language}</span>
               </div>
               <h1 className="font-display text-[clamp(3rem,6vw,5rem)] font-black leading-[0.9] tracking-tighter uppercase mb-6">
                 {poetry.title}
@@ -77,7 +77,7 @@ export default async function ListenDetailPage({ params }: Props) {
             {(poetry.tags ?? []).length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {poetry.tags.map(tag => (
-                  <span key={tag} className="badge bg-white/10 text-text-primary">
+                  <span key={tag} className="badge bg-ink/10 text-text-primary">
                     #{tag}
                   </span>
                 ))}

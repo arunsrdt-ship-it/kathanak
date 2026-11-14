@@ -32,7 +32,7 @@ export default function LikeButton({
       <button type="button" onClick={handleLike} disabled={busy} className="btn-primary disabled:opacity-50">
         <Heart size={16} /> {busy ? 'SAVING…' : `LIKE THIS POETRY · ${likes}`}
       </button>
-      {error && <p role="status" className="mt-2 text-xs text-red-300">{error}</p>}
+      {error && <p role="status" className="mt-2 text-xs text-red-700">{error}</p>}
     </div>
   );
 }

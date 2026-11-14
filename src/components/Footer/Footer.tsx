@@ -6,7 +6,7 @@ import { Mail, Globe, MessageCircle, Disc } from 'lucide-react';
 export default function Footer() {
   return (
     <footer
-      className="relative border-t border-white/8 bg-[#1c2924] pt-16 pb-8 overflow-hidden"
+      className="relative border-t border-ink/8 bg-[#f0eadc] pt-16 pb-8 overflow-hidden"
       style={{ fontFamily: "'Geist', sans-serif" }}
     >
       {/* Atmospheric glow */}
@@ -26,15 +26,15 @@ export default function Footer() {
           <div className="flex flex-col gap-6">
             <Link
               href="/"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 w-fit backdrop-blur-lg transition-all duration-300 hover:bg-white/12"
+              className="group inline-flex items-center gap-2 rounded-full border border-ink/12 bg-ink/6 px-4 py-2 w-fit backdrop-blur-lg transition-all duration-300 hover:bg-ink/12"
             >
-              <Disc size={15} className="text-white/70 transition-all duration-700 group-hover:rotate-180 group-hover:text-white" />
-              <span className="font-display text-sm font-black uppercase tracking-tighter text-white/80 group-hover:text-white">
+              <Disc size={15} className="text-ink/80 transition-all duration-700 group-hover:rotate-180 group-hover:text-ink" />
+              <span className="font-display text-sm font-black uppercase tracking-tighter text-ink/90 group-hover:text-ink">
                 KATHANAK
               </span>
             </Link>
 
-            <p className="font-mono text-[11px] uppercase tracking-widest leading-relaxed max-w-xs text-white/35">
+            <p className="font-mono text-[11px] uppercase tracking-widest leading-relaxed max-w-xs text-ink/60">
               Transforming text into cinematic poetry. A dark sanctuary for words that refuse to stay silent.
             </p>
 
@@ -50,7 +50,7 @@ export default function Footer() {
                   href={href}
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="h-9 w-9 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/45 transition-all duration-200 hover:bg-white/12 hover:text-white/80 hover:border-white/20"
+                  className="h-9 w-9 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/70 transition-all duration-200 hover:bg-ink/12 hover:text-ink/90 hover:border-ink/20"
                 >
                   <Icon size={14} />
                 </a>
@@ -60,7 +60,7 @@ export default function Footer() {
 
           {/* Index links */}
           <div className="flex flex-col gap-3">
-            <h4 className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-white/25 mb-2">
+            <h4 className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-ink/60 mb-2">
               INDEX
             </h4>
             {[
@@ -72,7 +72,7 @@ export default function Footer() {
               <Link
                 key={href}
                 href={href}
-                className="font-display text-base font-bold tracking-tight text-white/50 transition-all duration-200 hover:text-white hover:translate-x-1"
+                className="font-display text-base font-bold tracking-tight text-ink/70 transition-all duration-200 hover:text-ink hover:translate-x-1"
               >
                 {label}
               </Link>
@@ -81,7 +81,7 @@ export default function Footer() {
 
           {/* Legal links */}
           <div className="flex flex-col gap-3">
-            <h4 className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-white/25 mb-2">
+            <h4 className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-ink/60 mb-2">
               LEGAL
             </h4>
             {[
@@ -92,7 +92,7 @@ export default function Footer() {
               <Link
                 key={href}
                 href={href}
-                className="font-display text-base font-bold tracking-tight text-white/50 transition-all duration-200 hover:text-white hover:translate-x-1"
+                className="font-display text-base font-bold tracking-tight text-ink/70 transition-all duration-200 hover:text-ink hover:translate-x-1"
               >
                 {label}
               </Link>
@@ -101,11 +101,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-white/6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white/20">
+        <div className="pt-8 border-t border-ink/6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-ink/60">
             © {new Date().getFullYear()} KATHANAK PLATFORM. ALL RIGHTS RESERVED.
           </p>
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white/20">
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-ink/60">
             SYSTEM v1.0.0
           </p>
         </div>

@@ -46,7 +46,7 @@ export default async function ReadDetailPage({ params }: Props) {
           <div className="flex flex-wrap gap-2 justify-center mb-8">
             <span className="badge badge-text"><BookOpen size={11} strokeWidth={2.5}/> READ</span>
             {poetry.isFeatured && <span className="badge badge-featured">FEATURED</span>}
-            <span className="badge bg-white/10 text-text-primary">{poetry.language}</span>
+            <span className="badge bg-ink/10 text-text-primary">{poetry.language}</span>
           </div>
           
           <h1 className="font-display text-[clamp(3.5rem,8vw,6rem)] font-black leading-[0.85] tracking-tighter uppercase mb-8">
@@ -100,7 +100,7 @@ export default async function ReadDetailPage({ params }: Props) {
         {(poetry.tags ?? []).length > 0 && (
           <div className="flex flex-wrap gap-2 mt-12 justify-center max-w-[800px] mx-auto">
             {poetry.tags.map(tag => (
-              <span key={tag} className="badge bg-white/10 text-text-primary">#{tag}</span>
+              <span key={tag} className="badge bg-ink/10 text-text-primary">#{tag}</span>
             ))}
           </div>
         )}

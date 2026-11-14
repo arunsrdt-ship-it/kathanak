@@ -9,33 +9,33 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#f7f3e9', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Cinematic header ──────────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden pt-36 pb-20 border-b border-white/8"
+        className="relative overflow-hidden pt-36 pb-20 border-b border-ink/8"
         style={{
           background: `
             radial-gradient(ellipse at 80% 50%, rgba(100,180,255,0.08) 0%, transparent 55%),
             radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.04) 0%, transparent 50%),
-            #202d28
+            #fffdf7
           `,
         }}
       >
         <div className="pointer-events-none absolute inset-0 flex items-center overflow-hidden select-none" aria-hidden>
           <span
-            className="font-display font-black uppercase whitespace-nowrap opacity-[0.03] text-white"
+            className="font-display font-black uppercase whitespace-nowrap opacity-[0.03] text-ink"
             style={{ fontSize: 'clamp(8rem,16vw,14rem)', letterSpacing: '-0.04em' }}
           >
             CONTACT CONTACT
           </span>
         </div>
         <div className="relative max-w-[1400px] mx-auto px-6 md:px-12">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-ink/60 mb-6">
             INITIATE COMMUNICATION
           </p>
           <h1
-            className="font-display font-black uppercase leading-[0.85] text-white"
+            className="font-display font-black uppercase leading-[0.85] text-ink"
             style={{ fontSize: 'clamp(3.5rem,8vw,6rem)', letterSpacing: '-0.04em' }}
           >
             CONTACT <br /> KATHANAK
@@ -50,10 +50,10 @@ export default function ContactPage() {
           {/* Info column */}
           <div className="flex flex-col gap-10">
             <div>
-              <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-white/85 mb-5 pb-4 border-b border-white/8">
+              <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink/85 mb-5 pb-4 border-b border-ink/8">
                 REACH OUT
               </h2>
-              <p className="text-white/50 leading-[1.8]" style={{ fontFamily: "'Crimson Pro', serif", fontSize: '1.1rem' }}>
+              <p className="text-ink/70 leading-[1.8]" style={{ fontFamily: "'Crimson Pro', serif", fontSize: '1.1rem' }}>
                 Whether you want to collaborate, share your thoughts on a specific piece, or simply say hello — we are always open. Fill out the form and your message will reach us directly.
               </p>
             </div>
@@ -66,14 +66,14 @@ export default function ContactPage() {
               ].map(({ Icon, label, value }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-4 rounded-2xl border border-white/8 bg-white/5 p-5 backdrop-blur-sm"
+                  className="flex items-center gap-4 rounded-2xl border border-ink/8 bg-ink/5 p-5 backdrop-blur-sm"
                 >
-                  <div className="h-10 w-10 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/40 shrink-0">
+                  <div className="h-10 w-10 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/70 shrink-0">
                     <Icon size={15} />
                   </div>
                   <div>
-                    <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/30 mb-0.5">{label}</p>
-                    <p className="font-display text-base font-bold text-white/70">{value}</p>
+                    <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60 mb-0.5">{label}</p>
+                    <p className="font-display text-base font-bold text-ink/80">{value}</p>
                   </div>
                 </div>
               ))}
@@ -82,7 +82,7 @@ export default function ContactPage() {
 
           {/* Form column */}
           <div
-            className="rounded-2xl border border-white/8 bg-white/5 p-8 lg:p-10 backdrop-blur-lg relative"
+            className="rounded-2xl border border-ink/8 bg-ink/5 p-8 lg:p-10 backdrop-blur-lg relative"
             style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}
           >
             {/* Corner glow */}
@@ -90,7 +90,7 @@ export default function ContactPage() {
               className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full opacity-15 blur-3xl"
               style={{ background: 'radial-gradient(circle, rgba(100,180,255,0.5) 0%, transparent 70%)' }}
             />
-            <h3 className="font-display text-lg font-bold tracking-tight text-white/80 mb-6">
+            <h3 className="font-display text-lg font-bold tracking-tight text-ink/90 mb-6">
               Send a message
             </h3>
             <FeedbackForm />

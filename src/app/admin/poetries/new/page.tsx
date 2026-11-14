@@ -10,7 +10,7 @@ import { ArrowLeft, Save, Upload, AlertTriangle, CheckCircle } from 'lucide-reac
 /* ── reusable dark label ──────────────────────────────────────────── */
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+    <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
       {children}
     </label>
   );
@@ -59,18 +59,18 @@ function Toggle({
       <span
         className={`relative h-5 w-9 rounded-full border transition-all duration-300 ${
           checked
-            ? 'bg-white/20 border-white/30'
-            : 'bg-white/5 border-white/10'
+            ? 'bg-ink/20 border-ink/30'
+            : 'bg-ink/5 border-ink/10'
         }`}
       >
         <span
-          className={`absolute top-0.5 h-4 w-4 rounded-full bg-white/90 shadow transition-all duration-300 ${
+          className={`absolute top-0.5 h-4 w-4 rounded-full bg-ink/90 shadow transition-all duration-300 ${
             checked ? 'left-[18px]' : 'left-0.5'
           }`}
           style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
         />
       </span>
-      <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-white/45 group-hover:text-white/65 transition-colors">
+      <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-ink/70 group-hover:text-ink/75 transition-colors">
         {label}
       </span>
     </label>
@@ -141,18 +141,18 @@ export default function NewPoetry() {
     <div className="p-6 md:p-10 max-w-4xl">
 
       {/* Page header */}
-      <div className="mb-8 pb-6 border-b border-white/8 flex items-center gap-4">
+      <div className="mb-8 pb-6 border-b border-ink/8 flex items-center gap-4">
         <Link
           href="/admin/poetries"
-          className="h-9 w-9 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/40 hover:bg-white/12 hover:text-white/70 transition-all shrink-0"
+          className="h-9 w-9 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/70 hover:bg-ink/12 hover:text-ink/80 transition-all shrink-0"
         >
           <ArrowLeft size={15} />
         </Link>
         <div>
-          <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/25 mb-0.5">
+          <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60 mb-0.5">
             POETRY MANAGEMENT
           </p>
-          <h1 className="font-display text-2xl font-bold tracking-tight text-white/85">
+          <h1 className="font-display text-2xl font-bold tracking-tight text-ink/85">
             New Entry
           </h1>
         </div>
@@ -161,8 +161,8 @@ export default function NewPoetry() {
       {/* Error banner */}
       {error && (
         <div className="mb-6 flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/8 px-4 py-3">
-          <AlertTriangle size={14} className="text-red-400/70 shrink-0" />
-          <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-red-300/70">
+          <AlertTriangle size={14} className="text-red-800 shrink-0" />
+          <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-red-800">
             {error}
           </span>
         </div>
@@ -171,7 +171,7 @@ export default function NewPoetry() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
         {/* Main fields card */}
-        <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm">
+        <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {/* Left column */}
@@ -248,11 +248,11 @@ export default function NewPoetry() {
 
         {/* Media upload (conditional) */}
         {(formData.type === 'audio' || formData.type === 'video') && (
-          <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm">
+          <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
             <FieldLabel>
               Media file — uploads to Google Drive
             </FieldLabel>
-            <div className="relative mt-3 flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-white/12 bg-white/3 py-10 cursor-pointer group hover:bg-white/6 hover:border-white/20 transition-all">
+            <div className="relative mt-3 flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-ink/12 bg-ink/3 py-10 cursor-pointer group hover:bg-ink/6 hover:border-ink/20 transition-all">
               <input
                 type="file"
                 required
@@ -260,14 +260,14 @@ export default function NewPoetry() {
                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
                 accept={formData.type === 'audio' ? 'audio/*' : 'video/*'}
               />
-              <div className="h-12 w-12 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/35 group-hover:scale-110 group-hover:text-white/60 transition-all">
+              <div className="h-12 w-12 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/60 group-hover:scale-110 group-hover:text-ink/75 transition-all">
                 <Upload size={18} />
               </div>
               <div className="text-center">
-                <p className="font-display text-base font-bold tracking-tight text-white/60 group-hover:text-white/80 transition-colors">
+                <p className="font-display text-base font-bold tracking-tight text-ink/75 group-hover:text-ink/90 transition-colors">
                   {file ? file.name : `Select ${formData.type} file`}
                 </p>
-                <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-white/25 mt-1">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-ink/60 mt-1">
                   {file
                     ? `${(file.size / 1024 / 1024).toFixed(2)} MB`
                     : 'Click or drag & drop'
@@ -279,7 +279,7 @@ export default function NewPoetry() {
         )}
 
         {/* Poem text */}
-        <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm">
+        <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
           <div className="flex flex-col gap-1.5">
             <FieldLabel>Poem Text / Lyrics</FieldLabel>
             <textarea
@@ -294,19 +294,19 @@ export default function NewPoetry() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm">
+        <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
           <FieldLabel>Thumbnail image (optional)</FieldLabel>
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp,image/gif"
             onChange={e => setThumbnailFile(e.target.files?.[0] || null)}
-            className="form-input mt-3 file:mr-4 file:rounded-full file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-sm file:text-white"
+            className="form-input mt-3 file:mr-4 file:rounded-full file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:text-ink"
           />
-          {thumbnailFile && <p className="mt-2 text-xs text-white/50">{thumbnailFile.name}</p>}
+          {thumbnailFile && <p className="mt-2 text-xs text-ink/70">{thumbnailFile.name}</p>}
         </div>
 
         {/* Toggles + submit */}
-        <div className="rounded-2xl border border-white/8 bg-white/4 p-5 backdrop-blur-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+        <div className="rounded-2xl border border-ink/8 bg-ink/4 p-5 backdrop-blur-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="flex items-center gap-6">
             <Toggle
               label="Featured"
@@ -326,7 +326,7 @@ export default function NewPoetry() {
             className="btn-primary shrink-0 py-2.5 px-6"
           >
             {loading ? (
-              <>Saving… <span className="animate-spin ml-1 block h-3 w-3 rounded-full border border-white/30 border-t-white/80" /></>
+              <>Saving… <span className="animate-spin ml-1 block h-3 w-3 rounded-full border border-ink/30 border-t-white/80" /></>
             ) : (
               <><Save size={13} /> SAVE ENTRY</>
             )}

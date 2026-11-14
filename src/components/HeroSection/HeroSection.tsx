@@ -92,7 +92,7 @@ export default function HeroSection({ config }: Props) {
                   </text>
                 </svg>
               </div>
-              <div className="w-10 h-10 rounded-full bg-accent-dark text-white flex items-center justify-center relative z-10 hover:scale-110 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-accent-dark text-ink flex items-center justify-center relative z-10 hover:scale-110 transition-transform">
                 <MoveDown size={16} />
               </div>
             </div>
@@ -126,11 +126,11 @@ export default function HeroSection({ config }: Props) {
                
                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
                  {/* Abstract graphic */}
-                 <div className="w-24 h-32 border border-white/40 rounded-full flex items-center justify-center mb-4">
-                   <div className="w-16 h-24 border border-white/60 rounded-full" />
+                 <div className="w-24 h-32 border border-ink/40 rounded-full flex items-center justify-center mb-4">
+                   <div className="w-16 h-24 border border-ink/60 rounded-full" />
                  </div>
-                 <h3 className="font-display text-4xl text-white font-bold tracking-tighter mix-blend-difference">abstract</h3>
-                 <p className="font-mono text-[8px] text-white/80 uppercase tracking-widest mt-2 max-w-[140px] mix-blend-difference">
+                 <h3 className="font-display text-4xl text-ink font-bold tracking-tighter mix-blend-difference">abstract</h3>
+                 <p className="font-mono text-[8px] text-ink/90 uppercase tracking-widest mt-2 max-w-[140px] mix-blend-difference">
                    diving into the enigmatic realm of non representational art
                  </p>
                </div>
@@ -166,13 +166,13 @@ export default function HeroSection({ config }: Props) {
       </div>
       
       {/* Marquee Banner */}
-      <div className="w-full border-y-2 border-border bg-accent-dark text-white py-3 overflow-hidden mt-20 flex">
+      <div className="w-full border-y-2 border-border bg-accent-dark text-ink py-3 overflow-hidden mt-20 flex">
         <div className="animate-marquee whitespace-nowrap flex gap-12 font-mono text-xs font-bold tracking-widest uppercase">
           {[...Array(6)].map((_, i) => (
              <span key={i} className="flex items-center gap-12">
-               POETRY IN MOTION <span className="text-white/40">✦</span> 
-               WORDS THAT SPEAK <span className="text-white/40">✦</span> 
-               VISUAL HARMONY <span className="text-white/40">✦</span>
+               POETRY IN MOTION <span className="text-ink/70">✦</span>
+               WORDS THAT SPEAK <span className="text-ink/70">✦</span>
+               VISUAL HARMONY <span className="text-ink/70">✦</span>
              </span>
           ))}
         </div>

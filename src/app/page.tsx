@@ -20,9 +20,10 @@ export default async function HomePage() {
 
   const featured = featuredRes.status === 'fulfilled' ? featuredRes.value.data : [];
   const latest   = allRes.status       === 'fulfilled' ? allRes.value.data       : [];
+  const featuredItems = featured.length > 0 ? featured : latest.slice(0, 3);
 
   return (
-    <div style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
+    <div style={{ background: '#f7f3e9', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Full-screen cinematic hero (own embedded nav) ──────────────── */}
       <NexumHero />
@@ -30,15 +31,15 @@ export default async function HomePage() {
       {/* ── Module showcase ───────────────────────────────────────────── */}
       <section
         id="main-section"
-        className="py-24 border-b border-white/8"
-        style={{ background: 'linear-gradient(180deg, #17231f 0%, #202d28 100%)' }}
+        className="py-24 border-b border-ink/10"
+        style={{ background: 'linear-gradient(180deg, #f7f3e9 0%, #fffdf7 100%)' }}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <div className="mb-12 flex flex-col gap-2">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-ink/70">
               EXPLORE THE COLLECTION
             </p>
-            <h2 className="font-display text-4xl font-bold tracking-tight text-white/85">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-ink/90">
               Three ways to feel.
             </h2>
           </div>
@@ -76,8 +77,8 @@ export default async function HomePage() {
               <Link
                 key={href}
                 href={href}
-                className="group relative flex flex-col gap-5 rounded-2xl border border-white/8 bg-white/5 p-8 backdrop-blur-sm overflow-hidden transition-all duration-400 hover:-translate-y-1"
-                style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}
+                className="group relative flex flex-col gap-5 rounded-2xl border border-ink/10 bg-white/80 p-8 backdrop-blur-sm overflow-hidden transition-all duration-400 hover:-translate-y-1"
+                style={{ boxShadow: '0 8px 28px rgba(59,48,31,0.08)' }}
               >
                 {/* Hover glow */}
                 <div
@@ -87,24 +88,24 @@ export default async function HomePage() {
 
                 <div className="flex justify-between items-start">
                   <div
-                    className="h-12 w-12 rounded-xl border border-white/10 bg-white/8 flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                    className="h-12 w-12 rounded-xl border border-ink/10 bg-ink/[0.04] flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                     style={{ color: accent }}
                   >
                     <Icon size={20} strokeWidth={1.5} />
                   </div>
                   <ArrowRight
                     size={16}
-                    className="text-white/20 -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300"
+                    className="text-ink/60 -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300"
                   />
                 </div>
 
                 <div>
-                  <h2 className="font-display text-2xl font-bold tracking-tight text-white/85 mb-0.5">{title}</h2>
-                  <span className="font-prose italic text-white/30 text-base">{hindi}</span>
+                  <h2 className="font-display text-2xl font-bold tracking-tight text-ink/90 mb-0.5">{title}</h2>
+                  <span className="font-prose italic text-ink/70 text-base">{hindi}</span>
                 </div>
 
-                <div className="pt-4 border-t border-white/8 mt-auto">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-widest leading-relaxed text-white/30">
+                <div className="pt-4 border-t border-ink/10 mt-auto">
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-widest leading-relaxed text-ink/70">
                     {desc}
                   </p>
                 </div>
@@ -115,49 +116,58 @@ export default async function HomePage() {
       </section>
 
       {/* ── Featured ──────────────────────────────────────────────────── */}
-      {featured.length > 0 && (
-        <section
-          className="py-24 border-b border-white/8"
-          style={{ background: '#202d28' }}
+      <section
+          className="py-24 border-b border-ink/10"
+          style={{ background: '#fffdf7' }}
         >
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
               <div>
                 <div className="section-label mb-3"><Star size={10} /> HIGHLIGHTS</div>
-                <h2 className="font-display text-4xl font-bold tracking-tight text-white/85">
+                <h2 className="font-display text-4xl font-bold tracking-tight text-ink/90">
                   Featured Works
                 </h2>
+                {featured.length === 0 && featuredItems.length > 0 && (
+                  <p className="mt-2 max-w-xl text-sm text-ink/75">
+                    Showing the latest poems while no featured selections are set.
+                  </p>
+                )}
               </div>
               <Link href="/read" className="btn-outline shrink-0">
                 VIEW COLLECTION
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {featured.map((p, i) => (
+              {featuredItems.map((p, i) => (
                 <div key={p._id} className="card-rise" style={{ animationDelay: `${i * 80}ms` }}>
                   <PoetryCard poetry={p} featured />
                 </div>
               ))}
+              {featuredItems.length === 0 && (
+                <div className="sm:col-span-2 lg:col-span-3 rounded-2xl border border-ink/10 bg-ink/[0.025] p-8 text-center">
+                  <p className="text-ink/75">Featured poems will appear here once they are available.</p>
+                  <Link href="/read" className="btn-outline mt-5">BROWSE THE ARCHIVE</Link>
+                </div>
+              )}
             </div>
           </div>
-        </section>
-      )}
+      </section>
 
       {/* ── Latest ────────────────────────────────────────────────────── */}
       {latest.length > 0 && (
         <section
-          className="py-24 border-b border-white/8"
-          style={{ background: '#17231f' }}
+          className="py-24 border-b border-ink/10"
+          style={{ background: '#f7f3e9' }}
         >
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12 flex flex-col items-center gap-3">
               <h2
-                className="font-display font-bold tracking-tight text-white/80"
+                className="font-display font-bold tracking-tight text-ink/90"
                 style={{ fontSize: 'clamp(2.5rem,6vw,4rem)' }}
               >
                 LATEST <span className="text-outline">ENTRIES</span>
               </h2>
-              <div className="w-16 h-px bg-white/15" />
+              <div className="w-16 h-px bg-ink/20" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {latest.map((p, i) => (
@@ -178,8 +188,8 @@ export default async function HomePage() {
       {/* ── Contact / Feedback ────────────────────────────────────────── */}
       <section
         id="feedback"
-        className="py-24 relative overflow-hidden border-b border-white/8"
-        style={{ background: '#1c2924' }}
+        className="py-24 relative overflow-hidden border-b border-ink/10"
+        style={{ background: '#f0eadc' }}
       >
         {/* Atmospheric glow */}
         <div
@@ -194,19 +204,19 @@ export default async function HomePage() {
             <div className="flex flex-col gap-8">
               <div>
                 <div className="section-label mb-4"><MessageSquare size={10} /> INBOX</div>
-                <h2 className="font-display text-4xl font-bold tracking-tight text-white/85 mb-5">
+                <h2 className="font-display text-4xl font-bold tracking-tight text-ink/90 mb-5">
                   YOUR WORDS<br />MATTER
                 </h2>
-                <p className="text-white/45 leading-[1.8]" style={{ fontFamily: "'Crimson Pro', serif", fontSize: '1.1rem' }}>
+                <p className="text-ink/80 leading-[1.8]" style={{ fontFamily: "'Crimson Pro', serif", fontSize: '1.1rem' }}>
                   Poetry thrives on connection. If a verse touched you, made you think, or you just want to say hello — drop a line.
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm">
-                <p className="font-prose text-2xl italic text-white/60 leading-snug mb-3">
+              <div className="rounded-2xl border border-ink/10 bg-white/75 p-6 backdrop-blur-sm">
+                <p className="font-prose text-2xl italic text-ink/85 leading-snug mb-3">
                   &ldquo;शब्द जो दिल से निकलें, दिल तक पहुँचते हैं।&rdquo;
                 </p>
-                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white/25">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-ink/70">
                   Words that come from the heart, reach the heart.
                 </p>
               </div>
@@ -214,8 +224,8 @@ export default async function HomePage() {
 
             {/* Right form */}
             <div
-              className="rounded-2xl border border-white/8 bg-white/5 p-8 backdrop-blur-lg"
-              style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}
+              className="rounded-2xl border border-ink/10 bg-white/80 p-8 backdrop-blur-lg"
+              style={{ boxShadow: '0 18px 45px rgba(59,48,31,0.1)' }}
             >
               <FeedbackForm />
             </div>

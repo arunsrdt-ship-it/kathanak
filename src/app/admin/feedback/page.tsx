@@ -25,11 +25,11 @@ export default function AdminFeedback() {
   return (
     <div className="p-6 md:p-10 max-w-full">
       {/* Page header */}
-      <div className="mb-8 pb-6 border-b border-white/8">
-        <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/25 mb-1">
+      <div className="mb-8 pb-6 border-b border-ink/8">
+        <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60 mb-1">
           COMMUNICATION LOG
         </p>
-        <h1 className="font-display text-3xl font-bold tracking-tight text-white/85">
+        <h1 className="font-display text-3xl font-bold tracking-tight text-ink/85">
           System Inbox
         </h1>
       </div>
@@ -38,15 +38,15 @@ export default function AdminFeedback() {
         {loading ? (
           <div className="flex flex-col gap-3 animate-pulse">
             {[1,2,3].map(i => (
-              <div key={i} className="h-32 rounded-2xl bg-white/5 border border-white/6" />
+              <div key={i} className="h-32 rounded-2xl bg-ink/5 border border-ink/6" />
             ))}
           </div>
         ) : feedback.length === 0 ? (
-          <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/8 bg-white/4 p-16 text-center">
-            <div className="h-12 w-12 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/25">
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-ink/8 bg-ink/4 p-16 text-center">
+            <div className="h-12 w-12 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/60">
               <Mail size={18} />
             </div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-white/20">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-ink/60">
               No messages received yet.
             </p>
           </div>
@@ -54,23 +54,23 @@ export default function AdminFeedback() {
           feedback.map(item => (
             <div
               key={item._id}
-              className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm flex flex-col gap-5"
+              className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm flex flex-col gap-5"
               style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}
             >
               {/* Header row */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-ink/8">
                 <div className="flex items-center gap-4">
                   {/* Avatar pill */}
-                  <div className="h-10 w-10 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/40 shrink-0">
+                  <div className="h-10 w-10 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/70 shrink-0">
                     <Mail size={14} />
                   </div>
                   <div>
-                    <h2 className="font-display text-lg font-bold tracking-tight text-white/80">
+                    <h2 className="font-display text-lg font-bold tracking-tight text-ink/90">
                       {item.name}
                     </h2>
                     <a
                       href={`mailto:${item.email}`}
-                      className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-white/30 hover:text-white/55 transition-colors"
+                      className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-ink/60 hover:text-ink/70 transition-colors"
                     >
                       {item.email}
                     </a>
@@ -78,14 +78,14 @@ export default function AdminFeedback() {
                 </div>
 
                 <div className="flex items-center gap-3 ml-auto">
-                  <div className="rounded-full border border-white/8 bg-white/4 px-3 py-1">
-                    <span className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-white/25">
+                  <div className="rounded-full border border-ink/8 bg-ink/4 px-3 py-1">
+                    <span className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-ink/60">
                       {formatDate(item.createdAt)}
                     </span>
                   </div>
                   <button
                     onClick={() => { setDeleteId(item._id); setDeleteTitle(`Feedback from ${item.name}`); }}
-                    className="h-8 w-8 rounded-xl border border-white/8 bg-white/4 flex items-center justify-center text-white/25 hover:bg-red-500/10 hover:text-red-400/70 hover:border-red-500/20 transition-all"
+                    className="h-8 w-8 rounded-xl border border-ink/8 bg-ink/4 flex items-center justify-center text-ink/60 hover:bg-red-500/10 hover:text-red-400/70 hover:border-red-500/20 transition-all"
                   >
                     <Trash2 size={13} />
                   </button>
@@ -94,12 +94,12 @@ export default function AdminFeedback() {
 
               {/* Subject */}
               <div>
-                <p className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-white/25 mb-3">
+                <p className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-ink/60 mb-3">
                   Subject: {item.subject || 'N/A'}
                 </p>
                 {/* Message */}
                 <div
-                  className="rounded-xl border-l-2 border-white/15 bg-white/3 px-5 py-4 text-white/55 leading-relaxed whitespace-pre-wrap"
+                  className="rounded-xl border-l-2 border-ink/15 bg-ink/3 px-5 py-4 text-ink/70 leading-relaxed whitespace-pre-wrap"
                   style={{ fontFamily: "'Crimson Pro', serif", fontSize: '1rem' }}
                 >
                   {item.message}

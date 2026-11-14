@@ -61,12 +61,12 @@ export default function AdminConfig() {
   return (
     <div className="p-6 md:p-10 max-w-4xl">
       {/* Page header */}
-      <div className="mb-8 pb-6 border-b border-white/8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div className="mb-8 pb-6 border-b border-ink/8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/25 mb-1">
+          <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60 mb-1">
             PLATFORM SETTINGS
           </p>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-white/85">
+          <h1 className="font-display text-3xl font-bold tracking-tight text-ink/85">
             Site Configuration
           </h1>
         </div>
@@ -84,12 +84,12 @@ export default function AdminConfig() {
       {/* Warning banner if backend is unreachable / starting up */}
       {isError && (
         <div className="mb-6 flex items-start gap-3 rounded-2xl border border-amber-500/20 bg-amber-500/8 p-4 backdrop-blur-sm">
-          <AlertTriangle size={16} className="text-amber-400/80 shrink-0 mt-0.5" />
+          <AlertTriangle size={16} className="text-amber-800 shrink-0 mt-0.5" />
           <div className="flex flex-col gap-1">
-            <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-amber-300/80">
+            <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-amber-800">
               Server Sync Notice
             </span>
-            <p className="text-xs text-white/50 leading-relaxed">
+            <p className="text-xs text-ink/70 leading-relaxed">
               Unable to reach the live API ({fetchError instanceof Error ? fetchError.message : 'Server offline'}). Using local configuration defaults. You can still modify and save changes.
             </p>
           </div>
@@ -101,8 +101,8 @@ export default function AdminConfig() {
         <div
           className={`mb-6 flex items-center gap-3 rounded-2xl border px-4 py-3 backdrop-blur-sm ${
             status === 'success'
-              ? 'border-emerald-500/20 bg-emerald-500/8 text-emerald-300/80'
-              : 'border-red-500/20 bg-red-500/8 text-red-300/80'
+              ? 'border-emerald-700/20 bg-emerald-700/8 text-emerald-800'
+              : 'border-red-700/20 bg-red-700/8 text-red-800'
           }`}
         >
           {status === 'success' ? <CheckCircle size={15} /> : <AlertTriangle size={15} />}
@@ -111,7 +111,7 @@ export default function AdminConfig() {
       )}
 
       {/* Category Tabs */}
-      <div className="flex gap-2 mb-6 border-b border-white/8 pb-4">
+      <div className="flex gap-2 mb-6 border-b border-ink/8 pb-4">
         {[
           { id: 'hero', label: 'HERO CONTENT', icon: <Sparkles size={13} /> },
           { id: 'meta', label: 'SITE BRANDING', icon: <Globe size={13} /> },
@@ -123,8 +123,8 @@ export default function AdminConfig() {
             onClick={() => setActiveTab(tab.id as any)}
             className={`flex items-center gap-2 rounded-xl px-4 py-2 text-[11px] font-mono font-bold tracking-widest uppercase transition-all duration-200 ${
               activeTab === tab.id
-                ? 'bg-white/12 text-white border border-white/15 shadow-sm'
-                : 'text-white/40 hover:bg-white/6 hover:text-white/70 border border-transparent'
+                ? 'bg-ink/12 text-ink border border-ink/15 shadow-sm'
+                : 'text-ink/70 hover:bg-ink/6 hover:text-ink/80 border border-transparent'
             }`}
           >
             {tab.icon} {tab.label}
@@ -135,19 +135,19 @@ export default function AdminConfig() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         {/* Tab 1: Hero Section */}
         {activeTab === 'hero' && (
-          <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm flex flex-col gap-5">
-            <div className="border-b border-white/8 pb-3 mb-1">
-              <h2 className="font-display text-lg font-bold tracking-tight text-white/80">
+          <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm flex flex-col gap-5">
+            <div className="border-b border-ink/8 pb-3 mb-1">
+              <h2 className="font-display text-lg font-bold tracking-tight text-ink/90">
                 Hero Section Customization
               </h2>
-              <p className="font-mono text-[9px] uppercase tracking-widest text-white/30 mt-0.5">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-ink/60 mt-0.5">
                 Configure the headline, hindi accents, and description shown on the main hero
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                   Hero Tagline (Top Eyebrow)
                 </label>
                 <input
@@ -161,7 +161,7 @@ export default function AdminConfig() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                   Hindi Accent Text
                 </label>
                 <input
@@ -177,7 +177,7 @@ export default function AdminConfig() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                   Primary Title
                 </label>
                 <input
@@ -191,7 +191,7 @@ export default function AdminConfig() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                   Subtitle
                 </label>
                 <input
@@ -206,7 +206,7 @@ export default function AdminConfig() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                 Hero Description
               </label>
               <textarea
@@ -223,19 +223,19 @@ export default function AdminConfig() {
 
         {/* Tab 2: Site Branding & Meta */}
         {activeTab === 'meta' && (
-          <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm flex flex-col gap-5">
-            <div className="border-b border-white/8 pb-3 mb-1">
-              <h2 className="font-display text-lg font-bold tracking-tight text-white/80">
+          <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm flex flex-col gap-5">
+            <div className="border-b border-ink/8 pb-3 mb-1">
+              <h2 className="font-display text-lg font-bold tracking-tight text-ink/90">
                 Site Branding &amp; Meta
               </h2>
-              <p className="font-mono text-[9px] uppercase tracking-widest text-white/30 mt-0.5">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-ink/60 mt-0.5">
                 Global branding titles and descriptions
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                   Site Title
                 </label>
                 <input
@@ -249,7 +249,7 @@ export default function AdminConfig() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+                <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                   Site Subtitle
                 </label>
                 <input
@@ -264,7 +264,7 @@ export default function AdminConfig() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                 Site Description
               </label>
               <input
@@ -281,18 +281,18 @@ export default function AdminConfig() {
 
         {/* Tab 3: About & Contact */}
         {activeTab === 'general' && (
-          <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm flex flex-col gap-5">
-            <div className="border-b border-white/8 pb-3 mb-1">
-              <h2 className="font-display text-lg font-bold tracking-tight text-white/80">
+          <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm flex flex-col gap-5">
+            <div className="border-b border-ink/8 pb-3 mb-1">
+              <h2 className="font-display text-lg font-bold tracking-tight text-ink/90">
                 About &amp; Contact Info
               </h2>
-              <p className="font-mono text-[9px] uppercase tracking-widest text-white/30 mt-0.5">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-ink/60 mt-0.5">
                 Contact email and customized about text
               </p>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                 Contact Email Address
               </label>
               <input
@@ -306,7 +306,7 @@ export default function AdminConfig() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+              <label className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                 Custom About Text (Optional)
               </label>
               <textarea

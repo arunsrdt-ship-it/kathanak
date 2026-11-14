@@ -29,22 +29,22 @@ const sections = [
 
 export default function DisclaimerPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#f7f3e9', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Cinematic header ──────────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden pt-36 pb-16 border-b border-white/8"
+        className="relative overflow-hidden pt-36 pb-16 border-b border-ink/8"
         style={{
           background: `
             radial-gradient(ellipse at 85% 50%, rgba(100,180,255,0.06) 0%, transparent 55%),
-            #202d28
+            #fffdf7
           `,
         }}
       >
         {/* Ghost text */}
         <div className="pointer-events-none absolute inset-0 flex items-center overflow-hidden select-none" aria-hidden>
           <span
-            className="font-display font-black uppercase whitespace-nowrap text-white opacity-[0.025]"
+            className="font-display font-black uppercase whitespace-nowrap text-ink opacity-[0.025]"
             style={{ fontSize: 'clamp(6rem,14vw,12rem)', letterSpacing: '-0.04em' }}
           >
             DISCLAIMER
@@ -52,16 +52,16 @@ export default function DisclaimerPage() {
         </div>
 
         <div className="relative max-w-[900px] mx-auto px-6 md:px-12">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-5">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-ink/60 mb-5">
             LEGAL DOCUMENTATION
           </p>
           <h1
-            className="font-display font-black uppercase leading-[0.85] text-white mb-5"
+            className="font-display font-black uppercase leading-[0.85] text-ink mb-5"
             style={{ fontSize: 'clamp(2.8rem,6vw,5rem)', letterSpacing: '-0.04em' }}
           >
             DISCLAIMER
           </h1>
-          <p className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-white/25">
+          <p className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-ink/60">
             LAST UPDATED: AUGUST 2026
           </p>
         </div>
@@ -73,13 +73,13 @@ export default function DisclaimerPage() {
           {sections.map(({ title, body }) => (
             <div
               key={title}
-              className="rounded-2xl border border-white/8 bg-white/4 p-7 backdrop-blur-sm"
+              className="rounded-2xl border border-ink/8 bg-ink/4 p-7 backdrop-blur-sm"
             >
-              <h2 className="font-display text-lg font-bold tracking-tight text-white/75 mb-4 pb-3 border-b border-white/8">
+              <h2 className="font-display text-lg font-bold tracking-tight text-ink/85 mb-4 pb-3 border-b border-ink/8">
                 {title}
               </h2>
               <div
-                className="flex flex-col gap-3 text-white/50 leading-[1.85]"
+                className="flex flex-col gap-3 text-ink/70 leading-[1.85]"
                 style={{ fontFamily: "'Crimson Pro', serif", fontSize: '1.05rem' }}
               >
                 {body.map((p, i) => <p key={i}>{p}</p>)}

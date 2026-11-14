@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
       <div
         className="min-h-screen"
-        style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}
+        style={{ background: '#f7f3e9', fontFamily: "'Geist', sans-serif" }}
       >
         {children}
       </div>
@@ -53,28 +53,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div
       className="flex min-h-screen"
-      style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}
+      style={{ background: '#f7f3e9', fontFamily: "'Geist', sans-serif" }}
     >
       {/* ── Sidebar ──────────────────────────────────────────────────── */}
       <aside
-        className="hidden md:flex w-60 flex-col border-r border-white/8 shrink-0"
-        style={{ background: '#202d28' }}
+        className="hidden md:flex w-60 flex-col border-r border-ink/8 shrink-0"
+        style={{ background: '#fffdf7' }}
       >
         {/* Brand */}
-        <div className="px-5 py-6 border-b border-white/8">
+        <div className="px-5 py-6 border-b border-ink/8">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3.5 py-2 w-full transition-all hover:bg-white/10"
+            className="group inline-flex items-center gap-2 rounded-full border border-ink/12 bg-ink/6 px-3.5 py-2 w-full transition-all hover:bg-ink/10"
           >
             <Disc
               size={14}
-              className="text-white/60 transition-transform duration-700 group-hover:rotate-180"
+              className="text-ink/75 transition-transform duration-700 group-hover:rotate-180"
             />
             <div className="flex flex-col leading-none">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-white/80">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-ink/90">
                 KATHANAK
               </span>
-              <span className="text-[8px] font-mono font-bold uppercase tracking-[0.15em] text-white/30 mt-0.5">
+              <span className="text-[8px] font-mono font-bold uppercase tracking-[0.15em] text-ink/60 mt-0.5">
                 ADMIN PANEL
               </span>
             </div>
@@ -93,16 +93,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href={href}
                 className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-[11px] font-mono font-bold tracking-widest uppercase transition-all duration-200 ${
                   active
-                    ? 'bg-white/10 text-white border border-white/12'
-                    : 'text-white/40 hover:bg-white/6 hover:text-white/70 border border-transparent'
+                    ? 'bg-ink/10 text-ink border border-ink/12'
+                    : 'text-ink/70 hover:bg-ink/6 hover:text-ink/80 border border-transparent'
                 }`}
               >
-                <span className={active ? 'text-white/80' : 'text-white/30'}>
+                <span className={active ? 'text-ink/90' : 'text-ink/60'}>
                   {icon}
                 </span>
                 {label}
                 {active && (
-                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-white/40" />
+                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-ink/40" />
                 )}
               </Link>
             );
@@ -110,10 +110,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Logout */}
-        <div className="px-3 py-5 border-t border-white/8">
+        <div className="px-3 py-5 border-t border-ink/8">
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-[11px] font-mono font-bold tracking-widest uppercase text-red-400/60 transition-all duration-200 hover:bg-red-500/8 hover:text-red-400/90"
+            className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-[11px] font-mono font-bold tracking-widest uppercase text-red-800 transition-all duration-200 hover:bg-red-700/8 hover:text-red-900"
           >
             <LogOut size={15} />
             TERMINATE
@@ -122,10 +122,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* ── Mobile top bar ───────────────────────────────────────────── */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-b border-white/8 bg-[#202d28]/95 backdrop-blur-xl">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-b border-ink/8 bg-[#fffdf7]/95 backdrop-blur-xl">
         <Link href="/" className="flex items-center gap-2">
-          <Disc size={14} className="text-white/50" />
-          <span className="text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-white/70">
+          <Disc size={14} className="text-ink/70" />
+          <span className="text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-ink/80">
             KATHANAK ADMIN
           </span>
         </Link>
@@ -139,7 +139,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 key={href}
                 href={href}
                 className={`h-8 w-8 rounded-lg flex items-center justify-center transition-all ${
-                  active ? 'bg-white/12 text-white' : 'text-white/30 hover:text-white/60'
+                  active ? 'bg-ink/12 text-ink' : 'text-ink/60 hover:text-ink/75'
                 }`}
               >
                 {icon}
@@ -148,7 +148,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
           <button
             onClick={handleLogout}
-            className="h-8 w-8 rounded-lg flex items-center justify-center text-red-400/50 hover:text-red-400/80 ml-1"
+            className="h-8 w-8 rounded-lg flex items-center justify-center text-red-800 hover:text-red-900 ml-1"
           >
             <LogOut size={15} />
           </button>

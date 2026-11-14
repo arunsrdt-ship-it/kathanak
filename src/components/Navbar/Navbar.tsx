@@ -41,7 +41,7 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-5 py-4 sm:px-8 lg:px-12 transition-all duration-500 ${
           scrolled
-            ? 'bg-[#17231f]/85 backdrop-blur-xl border-b border-white/8'
+            ? 'bg-[#f7f3e9]/85 backdrop-blur-xl border-b border-ink/8'
             : 'bg-transparent'
         }`}
         style={{ height: 'var(--nav-height)' }}
@@ -50,20 +50,20 @@ export default function Navbar() {
         <Link
           href="/"
           aria-label="Kathanak home"
-          className="group flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 backdrop-blur-lg transition-all duration-300 hover:bg-white/15 hover:border-white/25"
+          className="group flex items-center gap-2 rounded-full border border-ink/15 bg-ink/8 px-4 py-2 backdrop-blur-lg transition-all duration-300 hover:bg-ink/15 hover:border-ink/25"
         >
           <Disc
             size={16}
-            className="text-white/80 transition-all duration-700 group-hover:rotate-180 group-hover:text-white"
+            className="text-ink/90 transition-all duration-700 group-hover:rotate-180 group-hover:text-ink"
           />
-          <span className="font-display text-sm font-black uppercase tracking-tighter text-white/90 group-hover:text-white leading-none transition-colors">
+          <span className="font-display text-sm font-black uppercase tracking-tighter text-ink/90 group-hover:text-ink leading-none transition-colors">
             KATHANAK
           </span>
         </Link>
 
         {/* ── Desktop glass pill cluster ───────────────────────────────── */}
         <div className="hidden md:flex items-center gap-3">
-          <div className="flex items-center rounded-full border border-white/12 bg-white/8 px-1.5 py-1.5 backdrop-blur-xl gap-0.5">
+          <div className="flex items-center rounded-full border border-ink/12 bg-ink/8 px-1.5 py-1.5 backdrop-blur-xl gap-0.5">
             {navLinks.map(({ href, label }) => {
               const active = pathname === href;
               return (
@@ -72,8 +72,8 @@ export default function Navbar() {
                   href={href}
                   className={`rounded-full px-4 py-1.5 text-[11px] font-mono font-bold tracking-widest transition-all duration-200 ${
                     active
-                      ? 'bg-white text-[#17231f] shadow-sm'
-                      : 'text-white/65 hover:bg-white/10 hover:text-white/90'
+                      ? 'bg-white text-[#26332d] shadow-sm'
+                      : 'text-ink/75 hover:bg-ink/10 hover:text-ink/90'
                   }`}
                 >
                   {label}
@@ -85,8 +85,8 @@ export default function Navbar() {
           {/* EXPLORE CTA pill */}
           <Link
             href="/read"
-            className="rounded-full px-5 py-2 text-[11px] font-mono font-bold tracking-widest uppercase text-white transition-all duration-200 hover:opacity-85 hover:-translate-y-px"
-            style={{ background: 'linear-gradient(to bottom, #344b40, #203029)', border: '1px solid rgba(243,238,226,0.16)' }}
+            className="rounded-full px-5 py-2 text-[11px] font-mono font-bold tracking-widest uppercase text-ink transition-all duration-200 hover:opacity-85 hover:-translate-y-px"
+            style={{ background: 'linear-gradient(to bottom, #dce8d3, #c5d7bd)', border: '1px solid rgba(38,51,45,0.14)' }}
           >
             EXPLORE
           </Link>
@@ -98,18 +98,18 @@ export default function Navbar() {
           onClick={() => setMobileOpen(p => !p)}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
-          className="md:hidden relative h-10 w-10 rounded-full border border-white/15 bg-white/8 backdrop-blur-lg flex items-center justify-center"
+          className="md:hidden relative h-10 w-10 rounded-full border border-ink/15 bg-ink/8 backdrop-blur-lg flex items-center justify-center"
           style={{ zIndex: 110 }}
         >
           <Menu
             size={17}
-            className={`absolute text-white transition-all duration-300 ${
+            className={`absolute text-ink transition-all duration-300 ${
               mobileOpen ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
             }`}
           />
           <X
             size={17}
-            className={`absolute text-white transition-all duration-300 ${
+            className={`absolute text-ink transition-all duration-300 ${
               mobileOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'
             }`}
           />
@@ -127,7 +127,7 @@ export default function Navbar() {
 
       {/* ── Mobile drawer ──────────────────────────────────────────────── */}
       <div
-        className={`fixed right-0 top-0 h-full w-72 bg-[#202d28]/95 backdrop-blur-2xl flex flex-col md:hidden border-l border-white/8 transition-transform duration-500 ${
+        className={`fixed right-0 top-0 h-full w-72 bg-[#fffdf7]/95 backdrop-blur-2xl flex flex-col md:hidden border-l border-ink/8 transition-transform duration-500 ${
           mobileOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{
@@ -137,14 +137,14 @@ export default function Navbar() {
       >
         {/* Drawer logo */}
         <div className="flex items-center gap-2 px-6 pt-8">
-          <Disc size={16} className="text-white/50 animate-spin-slow" />
-          <span className="font-display text-sm font-black uppercase tracking-tighter text-white/70">
+          <Disc size={16} className="text-ink/70 animate-spin-slow" />
+          <span className="font-display text-sm font-black uppercase tracking-tighter text-ink/80">
             KATHANAK
           </span>
         </div>
 
         {/* Divider */}
-        <div className="mx-6 mt-5 h-px bg-white/8" />
+        <div className="mx-6 mt-5 h-px bg-ink/8" />
 
         {/* Links */}
         <nav className="flex flex-col gap-1 px-4 pt-4">
@@ -156,8 +156,8 @@ export default function Navbar() {
                 href={href}
                 className={`flex items-center justify-between rounded-xl px-4 py-3.5 text-xs font-mono font-bold tracking-widest uppercase transition-all duration-200 ${
                   active
-                    ? 'bg-white/12 text-white'
-                    : 'text-white/55 hover:bg-white/8 hover:text-white/85'
+                    ? 'bg-ink/12 text-ink'
+                    : 'text-ink/70 hover:bg-ink/8 hover:text-ink/85'
                 }`}
                 style={{
                   opacity: mobileOpen ? 1 : 0,
@@ -167,7 +167,7 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
               >
                 {label}
-                {active && <span className="h-1.5 w-1.5 rounded-full bg-white/50" />}
+                {active && <span className="h-1.5 w-1.5 rounded-full bg-ink/50" />}
               </Link>
             );
           })}
@@ -184,8 +184,8 @@ export default function Navbar() {
         >
           <Link
             href="/read"
-            className="block w-full rounded-full py-3.5 text-center text-xs font-mono font-bold tracking-widest uppercase text-white transition-opacity hover:opacity-85"
-            style={{ background: 'linear-gradient(to bottom, #344b40, #203029)', border: '1px solid rgba(243,238,226,0.16)' }}
+            className="block w-full rounded-full py-3.5 text-center text-xs font-mono font-bold tracking-widest uppercase text-ink transition-opacity hover:opacity-85"
+            style={{ background: 'linear-gradient(to bottom, #dce8d3, #c5d7bd)', border: '1px solid rgba(38,51,45,0.14)' }}
             onClick={() => setMobileOpen(false)}
           >
             EXPLORE POETRIES

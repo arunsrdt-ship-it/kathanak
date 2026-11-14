@@ -7,23 +7,23 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#f7f3e9', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Cinematic header ──────────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden pt-36 pb-20 border-b border-white/8"
+        className="relative overflow-hidden pt-36 pb-20 border-b border-ink/8"
         style={{
           background: `
             radial-gradient(ellipse at 10% 60%, rgba(200,160,255,0.08) 0%, transparent 55%),
             radial-gradient(ellipse at 90% 20%, rgba(255,255,255,0.04) 0%, transparent 50%),
-            #202d28
+            #fffdf7
           `,
         }}
       >
         {/* Ghost typography */}
         <div className="pointer-events-none absolute inset-0 flex items-center overflow-hidden select-none" aria-hidden>
           <span
-            className="font-display font-black uppercase whitespace-nowrap opacity-[0.03] text-white"
+            className="font-display font-black uppercase whitespace-nowrap opacity-[0.03] text-ink"
             style={{ fontSize: 'clamp(8rem,16vw,14rem)', letterSpacing: '-0.04em' }}
           >
             ABOUT ABOUT
@@ -31,11 +31,11 @@ export default function AboutPage() {
         </div>
 
         <div className="relative max-w-[1400px] mx-auto px-6 md:px-12">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-ink/60 mb-6">
             THE STORY BEHIND THE WORDS
           </p>
           <h1
-            className="font-display font-black uppercase leading-[0.85] text-white"
+            className="font-display font-black uppercase leading-[0.85] text-ink"
             style={{ fontSize: 'clamp(3.5rem,8vw,6rem)', letterSpacing: '-0.04em' }}
           >
             ABOUT <br /> KATHANAK
@@ -50,7 +50,7 @@ export default function AboutPage() {
           {/* Image / visual column */}
           <div className="relative">
             <div
-              className="sticky top-28 rounded-2xl border border-white/8 bg-white/4 backdrop-blur-lg overflow-hidden aspect-[3/4]"
+              className="sticky top-28 rounded-2xl border border-ink/8 bg-ink/4 backdrop-blur-lg overflow-hidden aspect-[3/4]"
               style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}
             >
               <div
@@ -62,19 +62,19 @@ export default function AboutPage() {
 
               {/* Bottom label */}
               <div className="absolute bottom-6 left-6 right-6">
-                <div className="rounded-xl border border-white/10 bg-black/50 p-4 backdrop-blur-sm">
-                  <span className="block font-display text-lg font-bold text-white/90 tracking-tight">THE ARCHIVE</span>
-                  <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35 mt-1 block">EST. 2026</span>
+                <div className="rounded-xl border border-ink/10 bg-white/75 p-4 backdrop-blur-sm">
+                  <span className="block font-display text-lg font-bold text-ink/90 tracking-tight">THE ARCHIVE</span>
+                  <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60 mt-1 block">EST. 2026</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Text column */}
-          <div className="flex flex-col gap-12 text-white/70 leading-[1.85]" style={{ fontSize: '1.1rem', fontFamily: "'Crimson Pro', serif" }}>
+          <div className="flex flex-col gap-12 text-ink/80 leading-[1.85]" style={{ fontSize: '1.1rem', fontFamily: "'Crimson Pro', serif" }}>
 
             <div>
-              <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-white/85 mb-5 pb-4 border-b border-white/8">
+              <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink/85 mb-5 pb-4 border-b border-ink/8">
                 THE INCEPTION
               </h2>
               <p className="mb-4">
@@ -86,7 +86,7 @@ export default function AboutPage() {
             </div>
 
             <div>
-              <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-white/85 mb-5 pb-4 border-b border-white/8">
+              <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink/85 mb-5 pb-4 border-b border-ink/8">
                 THE VISION
               </h2>
               <p className="mb-4">
@@ -99,13 +99,13 @@ export default function AboutPage() {
 
             {/* Quote card */}
             <div
-              className="rounded-2xl border border-white/8 bg-white/5 backdrop-blur-lg p-8"
+              className="rounded-2xl border border-ink/8 bg-ink/5 backdrop-blur-lg p-8"
               style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
             >
-              <p className="font-display text-xl font-bold tracking-tight text-white/80 mb-4 leading-snug">
+              <p className="font-display text-xl font-bold tracking-tight text-ink/90 mb-4 leading-snug">
                 &ldquo;Poetry is the language in which man explores his own amazement.&rdquo;
               </p>
-              <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/30">
+              <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
                 — CHRISTOPHER FRY
               </span>
             </div>

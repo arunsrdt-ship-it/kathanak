@@ -33,7 +33,7 @@ export default function FeedbackForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5" style={{ fontFamily: "'Geist', sans-serif" }}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="name" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+          <label htmlFor="name" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
             Name
           </label>
           <input
@@ -44,7 +44,7 @@ export default function FeedbackForm() {
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+          <label htmlFor="email" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
             Email
           </label>
           <input
@@ -57,7 +57,7 @@ export default function FeedbackForm() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="subject" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+        <label htmlFor="subject" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
           Subject
         </label>
         <input
@@ -69,7 +69,7 @@ export default function FeedbackForm() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="message" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">
+        <label htmlFor="message" className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
           Message
         </label>
         <textarea
@@ -84,8 +84,8 @@ export default function FeedbackForm() {
         <div
           className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-sm backdrop-blur-sm ${
             status === 'success'
-              ? 'border-green-500/20 bg-green-500/8 text-green-300/80'
-              : 'border-red-500/20 bg-red-500/8 text-red-300/80'
+              ? 'border-green-700/20 bg-green-700/8 text-green-800'
+              : 'border-red-700/20 bg-red-700/8 text-red-800'
           }`}
         >
           {status === 'success'

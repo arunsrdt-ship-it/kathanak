@@ -37,16 +37,16 @@ export default function ModulePageLayout({
   const cfg = typeConfig[type];
 
   return (
-    <div className="min-h-screen" style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#f7f3e9', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Cinematic page header ────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden pt-36 pb-20 border-b border-white/8"
+        className="relative overflow-hidden pt-36 pb-20 border-b border-ink/8"
         style={{
           background: `
             radial-gradient(ellipse at 20% 50%, ${cfg.glow} 0%, transparent 60%),
             radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 50%),
-            #202d28
+            #fffdf7
           `,
         }}
       >
@@ -57,7 +57,7 @@ export default function ModulePageLayout({
         >
           <span
             className="font-display font-black uppercase leading-none whitespace-nowrap opacity-[0.03]"
-            style={{ fontSize: 'clamp(8rem,18vw,16rem)', letterSpacing: '-0.04em', color: '#fff' }}
+            style={{ fontSize: 'clamp(8rem,18vw,16rem)', letterSpacing: '-0.04em', color: '#26332d' }}
           >
             {title}
           </span>
@@ -67,20 +67,20 @@ export default function ModulePageLayout({
           <div className="flex flex-col gap-6">
             {/* Icon pill */}
             <div
-              className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/6 px-5 py-2.5 w-fit backdrop-blur-lg"
+              className="inline-flex items-center gap-3 rounded-full border border-ink/10 bg-ink/6 px-5 py-2.5 w-fit backdrop-blur-lg"
             >
               <span style={{ color: cfg.accent }}>{cfg.icon}</span>
-              <span className="font-prose text-lg italic text-white/55">{hindiTitle}</span>
+              <span className="font-prose text-lg italic text-ink/70">{hindiTitle}</span>
             </div>
 
             <h1
-              className="font-display font-black uppercase leading-[0.85] text-white"
+              className="font-display font-black uppercase leading-[0.85] text-ink"
               style={{ fontSize: 'clamp(3.5rem,9vw,7rem)', letterSpacing: '-0.04em' }}
             >
               {title}
             </h1>
 
-            <p className="font-mono text-xs font-bold uppercase tracking-widest max-w-lg leading-relaxed text-white/40 border-l-2 border-white/15 pl-4">
+            <p className="font-mono text-xs font-bold uppercase tracking-widest max-w-lg leading-relaxed text-ink/70 border-l-2 border-ink/15 pl-4">
               {desc}
             </p>
           </div>
@@ -89,12 +89,12 @@ export default function ModulePageLayout({
           {total > 0 && (
             <div className="text-right shrink-0">
               <span
-                className="block font-silk text-white/80 leading-none"
+                className="block font-silk text-ink/90 leading-none"
                 style={{ fontSize: 'clamp(3rem,7vw,5rem)' }}
               >
                 {total}
               </span>
-              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white/30">
+              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-ink/60">
                 {total === 1 ? 'ENTRY' : 'ENTRIES'} INDEXED
               </span>
             </div>
@@ -106,15 +106,15 @@ export default function ModulePageLayout({
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16">
         {poetries.length === 0 ? (
           <div
-            className="flex flex-col items-center justify-center gap-6 rounded-2xl border border-white/8 bg-white/4 backdrop-blur-lg p-20 text-center"
+            className="flex flex-col items-center justify-center gap-6 rounded-2xl border border-ink/8 bg-ink/4 backdrop-blur-lg p-20 text-center"
           >
-            <div className="h-16 w-16 rounded-full border border-white/10 bg-white/6 flex items-center justify-center text-white/30">
+            <div className="h-16 w-16 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/60">
               {cfg.icon}
             </div>
-            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-white/50">
+            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink/70">
               Archive Empty
             </h2>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-white/25">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-ink/60">
               Check back soon for new additions.
             </p>
           </div>
@@ -134,13 +134,13 @@ export default function ModulePageLayout({
 
         {/* Pagination */}
         {pages > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-16 pt-8 border-t border-white/8">
+          <div className="flex items-center justify-center gap-4 mt-16 pt-8 border-t border-ink/8">
             {page > 1 ? (
               <a href={`?page=${page - 1}`} className="btn-outline">PREV</a>
             ) : (
               <span className="btn-outline opacity-40 pointer-events-none">PREV</span>
             )}
-            <span className="font-mono text-xs font-bold tracking-widest text-white/40">
+            <span className="font-mono text-xs font-bold tracking-widest text-ink/70">
               {page} / {pages}
             </span>
             {page < pages ? (

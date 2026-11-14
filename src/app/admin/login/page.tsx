@@ -23,7 +23,7 @@ export default function AdminLogin() {
   return (
     <div
       className="relative min-h-screen flex items-center justify-center p-6 overflow-hidden"
-      style={{ background: '#17231f' }}
+      style={{ background: '#f7f3e9' }}
     >
       {/* Atmospheric glow */}
       <div
@@ -37,7 +37,7 @@ export default function AdminLogin() {
         aria-hidden
       >
         <span
-          className="font-display font-black uppercase whitespace-nowrap text-white -rotate-12"
+          className="font-display font-black uppercase whitespace-nowrap text-ink -rotate-12"
           style={{ fontSize: 'clamp(6rem,18vw,16rem)', opacity: 0.025, letterSpacing: '-0.04em' }}
         >
           RESTRICTED
@@ -46,22 +46,22 @@ export default function AdminLogin() {
 
       {/* Login card */}
       <div
-        className="relative z-10 w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl"
-        style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06) inset' }}
+        className="relative z-10 w-full max-w-sm rounded-2xl border border-ink/10 bg-ink/5 p-10 backdrop-blur-xl"
+        style={{ boxShadow: '0 24px 60px rgba(59,48,31,0.14), 0 0 0 1px rgba(38,51,45,0.04) inset' }}
       >
         {/* Icon + title */}
         <div className="flex flex-col items-center gap-4 text-center mb-8">
           <div
-            className="h-14 w-14 rounded-full border border-white/12 bg-white/8 flex items-center justify-center text-white/60"
-            style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}
+            className="h-14 w-14 rounded-full border border-ink/12 bg-ink/8 flex items-center justify-center text-ink/75"
+            style={{ boxShadow: '0 6px 20px rgba(59,48,31,0.12)' }}
           >
             <Lock size={22} />
           </div>
           <div>
-            <h1 className="font-display text-2xl font-bold tracking-tight text-white/90 mb-1">
+            <h1 className="font-display text-2xl font-bold tracking-tight text-ink/90 mb-1">
               SYSTEM AUTH
             </h1>
-            <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/30">
+            <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60">
               ENTER CLEARANCE CODE TO CONTINUE
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function AdminLogin() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="key"
-              className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/35"
+              className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink/60"
             >
               Authorization Key
             </label>
@@ -86,7 +86,7 @@ export default function AdminLogin() {
               autoFocus
             />
             {error && (
-              <span className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-red-400/70">
+              <span className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-red-800">
                 Invalid clearance code
               </span>
             )}
@@ -105,7 +105,7 @@ export default function AdminLogin() {
         <div className="mt-6 text-center">
           <a
             href="/"
-            className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-white/20 hover:text-white/40 transition-colors"
+            className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-ink/60 hover:text-ink/70 transition-colors"
           >
             ← Back to site
           </a>

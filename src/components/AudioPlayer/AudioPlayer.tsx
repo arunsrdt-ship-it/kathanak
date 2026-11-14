@@ -47,8 +47,8 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
 
   return (
     <div
-      className="relative flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#202d28] p-6"
-      style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.6)', fontFamily: "'Geist', sans-serif" }}
+      className="relative flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-[#fffdf7] p-6"
+      style={{ boxShadow: '0 16px 40px rgba(59,48,31,0.1)', fontFamily: "'Geist', sans-serif" }}
     >
       {/* Atmospheric glow behind disc */}
       <div
@@ -71,8 +71,8 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
       <div className="relative w-full aspect-square rounded-full mb-6 flex items-center justify-center">
         {/* Outer ring */}
         <div
-          className="absolute inset-0 rounded-full border border-white/6"
-          style={{ background: 'radial-gradient(circle at 30% 30%, rgba(243,238,226,0.08), #202d28)' }}
+          className="absolute inset-0 rounded-full border border-ink/10"
+          style={{ background: 'radial-gradient(circle at 30% 30%, #fffdf7, #e8dfce)' }}
         />
 
         {/* Spinning disc */}
@@ -80,28 +80,28 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
           className="w-[85%] h-[85%] rounded-full relative flex items-center justify-center"
           style={{
             transform: `rotate(${rot}deg)`,
-            background: 'conic-gradient(from 0deg, #283b32, #3d5146, #283b32, #31463b, #283b32)',
-            boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
+            background: 'conic-gradient(from 0deg, #d7cbb3, #f4ecdc, #d7cbb3, #e5dac3, #d7cbb3)',
+            boxShadow: '0 0 0 1px rgba(38,51,45,0.12)',
           }}
         >
           {/* Groove rings */}
           {[12, 22, 32, 42, 52].map(n => (
             <div
               key={n}
-              className="absolute rounded-full border border-white/[0.035]"
+              className="absolute rounded-full border border-ink/[0.12]"
               style={{ inset: `${n}%` }}
             />
           ))}
 
           {/* Center label */}
           <div
-            className="w-[28%] h-[28%] rounded-full border border-white/10 flex items-center justify-center overflow-hidden"
-            style={{ background: 'rgba(255,200,100,0.12)' }}
+            className="w-[28%] h-[28%] rounded-full border border-ink/10 flex items-center justify-center overflow-hidden"
+            style={{ background: 'rgba(182,126,52,0.2)' }}
           >
             {thumbnailUrl ? (
               <img src={thumbnailUrl} alt="label" className="absolute inset-0 w-full h-full object-cover opacity-25 grayscale" />
             ) : null}
-            <div className="h-3 w-3 rounded-full bg-white/20 border border-white/15 z-10" />
+            <div className="h-3 w-3 rounded-full bg-[#f7f3e9] border border-ink/20 z-10" />
           </div>
         </div>
 
@@ -111,25 +111,25 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
           style={{
             height: '42%',
             transform: playing ? 'rotate(28deg)' : 'rotate(8deg)',
-            background: 'rgba(255,255,255,0.15)',
+            background: 'rgba(38,51,45,0.24)',
             borderRadius: '2px',
           }}
         >
           <div
             className="absolute -top-3 -left-2 h-5 w-5 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.12)' }}
+            style={{ background: '#e8dfce', border: '1px solid rgba(38,51,45,0.16)' }}
           />
         </div>
 
         {/* Loading/error overlay */}
         {loading && !error && (
-          <div className="absolute inset-0 rounded-full flex items-center justify-center bg-black/50 z-20">
-            <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-white/30 animate-pulse">Loading…</p>
+          <div className="absolute inset-0 rounded-full flex items-center justify-center bg-[#fffdf7]/85 z-20">
+            <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-ink/75 animate-pulse">Loading…</p>
           </div>
         )}
         {error && (
-          <div className="absolute inset-0 rounded-full flex items-center justify-center bg-black/70 z-20">
-            <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-red-400/60">Stream failed</p>
+          <div className="absolute inset-0 rounded-full flex items-center justify-center bg-[#fffdf7]/90 z-20">
+            <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-red-800">Stream failed</p>
           </div>
         )}
       </div>
@@ -137,13 +137,13 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
       {/* Controls */}
       <div className="flex flex-col gap-4">
         {/* Title */}
-        <p className="font-display text-sm font-bold tracking-tight text-white/70 text-center truncate">
+        <p className="font-display text-sm font-bold tracking-tight text-ink/80 text-center truncate">
           {title}
         </p>
 
         {/* Progress bar */}
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] font-bold text-white/30 w-8 text-right">
+          <span className="font-mono text-[9px] font-bold text-ink/60 w-8 text-right">
             {formatDuration(Math.floor(current))}
           </span>
           <input
@@ -156,7 +156,7 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
             className="flex-1"
             style={{ '--progress': `${progress}%` } as React.CSSProperties}
           />
-          <span className="font-mono text-[9px] font-bold text-white/30 w-8">
+          <span className="font-mono text-[9px] font-bold text-ink/60 w-8">
             {formatDuration(Math.floor(duration))}
           </span>
         </div>
@@ -166,7 +166,7 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
           {/* Volume */}
           <button
             onClick={() => { setMuted(m => !m); audioRef.current!.muted = !muted; }}
-            className="h-9 w-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/40 transition-all hover:bg-white/10 hover:text-white/70"
+            className="h-9 w-9 rounded-full border border-ink/10 bg-ink/5 flex items-center justify-center text-ink/70 transition-all hover:bg-ink/10 hover:text-ink/80"
           >
             {muted ? <VolumeX size={14} /> : <Volume2 size={14} />}
           </button>
@@ -175,15 +175,15 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
           <div className="flex items-center gap-4">
             <button
               onClick={() => skip(-10)}
-              className="text-white/35 hover:text-white/70 transition-colors hover:scale-105"
+              className="text-ink/60 hover:text-ink/80 transition-colors hover:scale-105"
             >
               <SkipBack size={18} strokeWidth={2} />
             </button>
 
             <button
               onClick={toggle}
-              className="h-14 w-14 rounded-full border border-white/15 bg-white/10 flex items-center justify-center text-white transition-all hover:bg-white/18 hover:scale-105"
-              style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}
+              className="h-14 w-14 rounded-full border border-ink/15 bg-ink/10 flex items-center justify-center text-ink transition-all hover:bg-ink/18 hover:scale-105"
+              style={{ boxShadow: '0 4px 18px rgba(59,48,31,0.15)' }}
             >
               {playing
                 ? <Pause size={18} fill="currentColor" />
@@ -193,7 +193,7 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
 
             <button
               onClick={() => skip(10)}
-              className="text-white/35 hover:text-white/70 transition-colors hover:scale-105"
+              className="text-ink/60 hover:text-ink/80 transition-colors hover:scale-105"
             >
               <SkipForward size={18} strokeWidth={2} />
             </button>

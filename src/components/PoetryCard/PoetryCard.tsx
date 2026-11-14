@@ -52,9 +52,9 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
 
   return (
     <article
-      className="group relative flex flex-col h-full rounded-2xl overflow-hidden border border-white/8 bg-white/5 backdrop-blur-lg transition-all duration-400"
+      className="group relative flex flex-col h-full rounded-2xl overflow-hidden border border-ink/8 bg-ink/5 backdrop-blur-lg transition-all duration-400"
       style={{
-        boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+        boxShadow: '0 8px 28px rgba(59,48,31,0.09)',
         transitionTimingFunction: 'cubic-bezier(0.34,1.56,0.64,1)',
       }}
     >
@@ -83,16 +83,16 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
           ) : (
             <div
               className="absolute inset-0 flex items-center justify-center"
-              style={{ background: 'rgba(255,255,255,0.04)' }}
+              style={{ background: '#f1ebdf' }}
             >
               <div
                 className="absolute inset-0 opacity-10"
                 style={{
-                  backgroundImage: 'radial-gradient(circle at 1.5px 1.5px, rgba(255,255,255,0.4) 1px, transparent 0)',
+                  backgroundImage: 'radial-gradient(circle at 1.5px 1.5px, rgba(38,51,45,0.22) 1px, transparent 0)',
                   backgroundSize: '18px 18px',
                 }}
               />
-              <div className="relative z-10 h-14 w-14 rounded-full border border-white/15 bg-white/8 flex items-center justify-center text-white/60 transition-transform duration-300 group-hover:scale-110">
+              <div className="relative z-10 h-14 w-14 rounded-full border border-ink/15 bg-ink/8 flex items-center justify-center text-ink/75 transition-transform duration-300 group-hover:scale-110">
                 {cfg.icon}
               </div>
             </div>
@@ -106,7 +106,7 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
             <span className={`badge ${cfg.badgeCls}`}>{cfg.label}</span>
             {poetry.isFeatured && (
               <span className="badge badge-featured">
-                <Star size={9} className="fill-white" />
+              <Star size={9} className="fill-current" />
               </span>
             )}
           </div>
@@ -114,8 +114,8 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
           {/* Duration */}
           {poetry.duration && (
             <div className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full border border-white/15 bg-black/50 px-2 py-1 backdrop-blur-sm">
-              <Clock size={9} strokeWidth={2.5} className="text-white/60" />
-              <span className="font-mono text-[9px] font-bold tracking-widest text-white/70">
+              <Clock size={9} strokeWidth={2.5} className="text-white/75" />
+              <span className="font-mono text-[9px] font-bold tracking-widest text-white/85">
                 {formatDuration(poetry.duration)}
               </span>
             </div>
@@ -126,17 +126,17 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
         <div className="flex flex-col flex-1 p-5">
           <div className="flex items-center justify-between mb-3">
             {poetry.language && (
-              <span className="font-mono text-[9px] font-bold tracking-widest uppercase rounded-full border border-white/10 px-2 py-0.5 text-white/40">
+              <span className="font-mono text-[9px] font-bold tracking-widest uppercase rounded-full border border-ink/10 px-2 py-0.5 text-ink/70">
                 {poetry.language}
               </span>
             )}
-            <span className="ml-auto font-mono text-[9px] font-bold tracking-widest text-white/30">
+            <span className="ml-auto font-mono text-[9px] font-bold tracking-widest text-ink/60">
               {formatDate(poetry.createdAt)}
             </span>
           </div>
 
           <h3
-            className={`font-display font-bold tracking-tight text-white/90 leading-[1.15] mb-2 group-hover:text-white transition-colors ${
+            className={`font-display font-bold tracking-tight text-ink/90 leading-[1.15] mb-2 group-hover:text-ink transition-colors ${
               featured ? 'text-xl' : 'text-lg'
             }`}
           >
@@ -144,22 +144,22 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
           </h3>
 
           {poetry.description && (
-            <p className="font-mono text-[10px] leading-relaxed text-white/35 uppercase tracking-wide mb-4 line-clamp-2">
+            <p className="font-mono text-[10px] leading-relaxed text-ink/60 uppercase tracking-wide mb-4 line-clamp-2">
               {poetry.description}
             </p>
           )}
 
           {/* Footer row */}
-          <div className="mt-auto pt-4 border-t border-white/8 flex items-center justify-between">
+          <div className="mt-auto pt-4 border-t border-ink/8 flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5 font-mono text-[9px] font-bold text-white/35">
+              <span className="flex items-center gap-1.5 font-mono text-[9px] font-bold text-ink/60">
                 <Eye size={12} strokeWidth={2} /> {poetry.views.toLocaleString()}
               </span>
               <button
                 onClick={handleLike}
                 disabled={liking}
                 className={`flex items-center gap-1.5 font-mono text-[9px] font-bold transition-all hover:scale-110 ${
-                  liked ? 'text-pink-400' : 'text-white/35 hover:text-pink-400'
+                  liked ? 'text-pink-400' : 'text-ink/60 hover:text-pink-400'
                 }`}
               >
                 <Heart size={12} strokeWidth={2} fill={liked ? 'currentColor' : 'none'} />
@@ -168,7 +168,7 @@ export default function PoetryCard({ poetry, featured = false }: Props) {
             </div>
 
             {/* Arrow */}
-            <div className="h-6 w-6 rounded-full border border-white/10 flex items-center justify-center text-white/30 transition-all duration-200 group-hover:bg-white/12 group-hover:text-white/80 group-hover:border-white/20">
+            <div className="h-6 w-6 rounded-full border border-ink/10 flex items-center justify-center text-ink/60 transition-all duration-200 group-hover:bg-ink/12 group-hover:text-ink/90 group-hover:border-ink/20">
               <span className="font-mono text-[10px] -rotate-45 block">→</span>
             </div>
           </div>
