@@ -121,7 +121,7 @@ export default async function HomePage() {
           style={{ background: '#fffdf7' }}
         >
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-            <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+            <div className="flex flex-col items-start justify-between gap-6 mb-12 md:flex-row md:items-end">
               <div>
                 <div className="section-label mb-3"><Star size={10} /> HIGHLIGHTS</div>
                 <h2 className="font-display text-4xl font-bold tracking-tight text-ink/90">

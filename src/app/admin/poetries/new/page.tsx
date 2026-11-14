@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { uploadPoetry } from '@/lib/api';
-import { ArrowLeft, Save, Upload, AlertTriangle, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Save, Upload, AlertTriangle } from 'lucide-react';
 
 /* ── reusable dark label ──────────────────────────────────────────── */
 function FieldLabel({ children }: { children: React.ReactNode }) {
@@ -90,7 +90,7 @@ export default function NewPoetry() {
     language:     'english',
     tags:         '',
     content:      '',
-    thumbnailUrl: '',
+    duration:     '',
     isFeatured:   false,
     isPublished:  true,
   });
@@ -109,6 +109,15 @@ export default function NewPoetry() {
     }
     if ((formData.type === 'audio' || formData.type === 'video') && !file) {
       setError(`Please choose a ${formData.type} file before saving.`);
+      return;
+    }
+    const maxMediaSize = formData.type === 'audio' ? 100 : 500;
+    if (file && file.size > maxMediaSize * 1024 * 1024) {
+      setError(`${formData.type === 'audio' ? 'Audio' : 'Video'} files must be under ${maxMediaSize} MB.`);
+      return;
+    }
+    if (thumbnailFile && thumbnailFile.size > 10 * 1024 * 1024) {
+      setError('Thumbnail images must be under 10 MB.');
       return;
     }
     setLoading(true); setError('');
@@ -190,11 +199,14 @@ export default function NewPoetry() {
 
               <div className="flex flex-col gap-1.5">
                 <FieldLabel>Type</FieldLabel>
-                <DarkSelect value={formData.type} onChange={v => set('type', v)}>
-                  <option value="text">Text Only</option>
-                  <option value="audio">Audio Stream</option>
-                  <option value="video">Video Stream</option>
+                <DarkSelect value={formData.type} onChange={v => { set('type', v); setFile(null); }}>
+                  <option value="text">Written poem</option>
+                  <option value="audio">Audio poem — upload a file</option>
+                  <option value="video">Video poem — upload a file</option>
                 </DarkSelect>
+                <p className="text-xs leading-relaxed text-ink/70">
+                  Choose Audio or Video to show the required file upload.
+                </p>
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -207,16 +219,6 @@ export default function NewPoetry() {
                 </DarkSelect>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <FieldLabel>Thumbnail URL (optional)</FieldLabel>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={formData.thumbnailUrl}
-                  onChange={e => set('thumbnailUrl', e.target.value)}
-                  placeholder="https://..."
-                />
-              </div>
             </div>
 
             {/* Right column */}
@@ -249,16 +251,31 @@ export default function NewPoetry() {
         {/* Media upload (conditional) */}
         {(formData.type === 'audio' || formData.type === 'video') && (
           <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
-            <FieldLabel>
-              Media file — uploads to Google Drive
-            </FieldLabel>
+            <FieldLabel>{formData.type === 'audio' ? 'Audio file (required)' : 'Video file (required)'}</FieldLabel>
+            <p className="mt-1 text-xs leading-relaxed text-ink/70">
+              Upload from your device. The backend stores it in Google Drive, and site players fetch it after saving.
+              {formData.type === 'audio' ? ' Audio limit: 100 MB.' : ' Video limit: 500 MB.'}
+            </p>
             <div className="relative mt-3 flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-ink/12 bg-ink/3 py-10 cursor-pointer group hover:bg-ink/6 hover:border-ink/20 transition-all">
               <input
                 type="file"
                 required
-                onChange={e => setFile(e.target.files?.[0] || null)}
+                onChange={e => {
+                  const selected = e.target.files?.[0] || null;
+                  const maxSize = formData.type === 'audio' ? 100 : 500;
+                  if (selected && selected.size > maxSize * 1024 * 1024) {
+                    setError(`${formData.type === 'audio' ? 'Audio' : 'Video'} files must be under ${maxSize} MB.`);
+                    setFile(null);
+                    e.currentTarget.value = '';
+                    return;
+                  }
+                  setError('');
+                  setFile(selected);
+                }}
                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
-                accept={formData.type === 'audio' ? 'audio/*' : 'video/*'}
+                accept={formData.type === 'audio'
+                  ? 'audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/aac,audio/flac,audio/mp4,audio/x-m4a,.mp3,.wav,.ogg,.aac,.flac,.m4a'
+                  : 'video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo,video/mpeg,.mp4,.webm,.mov,.avi,.mpeg,.mpg'}
               />
               <div className="h-12 w-12 rounded-full border border-ink/10 bg-ink/6 flex items-center justify-center text-ink/60 group-hover:scale-110 group-hover:text-ink/75 transition-all">
                 <Upload size={18} />
@@ -274,6 +291,18 @@ export default function NewPoetry() {
                   }
                 </p>
               </div>
+            </div>
+            <div className="mt-5 flex max-w-xs flex-col gap-1.5">
+                <FieldLabel>Duration in seconds (optional)</FieldLabel>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  className="form-input"
+                  value={formData.duration}
+                  onChange={e => set('duration', e.target.value)}
+                  placeholder="e.g. 95"
+                />
             </div>
           </div>
         )}
@@ -295,11 +324,21 @@ export default function NewPoetry() {
         </div>
 
         <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
-          <FieldLabel>Thumbnail image (optional)</FieldLabel>
+          <FieldLabel>Thumbnail image (optional, one file)</FieldLabel>
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp,image/gif"
-            onChange={e => setThumbnailFile(e.target.files?.[0] || null)}
+            onChange={e => {
+              const selected = e.target.files?.[0] || null;
+              if (selected && selected.size > 10 * 1024 * 1024) {
+                setError('Thumbnail images must be under 10 MB.');
+                setThumbnailFile(null);
+                e.currentTarget.value = '';
+                return;
+              }
+              setError('');
+              setThumbnailFile(selected);
+            }}
             className="form-input mt-3 file:mr-4 file:rounded-full file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:text-ink"
           />
           {thumbnailFile && <p className="mt-2 text-xs text-ink/70">{thumbnailFile.name}</p>}

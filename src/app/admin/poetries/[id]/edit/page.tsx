@@ -15,14 +15,13 @@ type FormState = {
   language: Poetry['language'];
   tags: string;
   duration: string;
-  thumbnailUrl: string;
   isFeatured: boolean;
   isPublished: boolean;
 };
 
 const EMPTY_FORM: FormState = {
   title: '', description: '', content: '', type: 'text', language: 'english',
-  tags: '', duration: '', thumbnailUrl: '', isFeatured: false, isPublished: true,
+  tags: '', duration: '', isFeatured: false, isPublished: true,
 };
 
 export default function EditPoetry() {
@@ -47,7 +46,6 @@ export default function EditPoetry() {
       language: poetry.language,
       tags: poetry.tags.join(', '),
       duration: poetry.duration == null ? '' : String(poetry.duration),
-      thumbnailUrl: poetry.thumbnailUrl || '',
       isFeatured: poetry.isFeatured,
       isPublished: poetry.isPublished,
     });
@@ -72,6 +70,15 @@ export default function EditPoetry() {
       setMessage('Add the poem text before saving this entry.');
       return;
     }
+    const maxMediaSize = form.type === 'audio' ? 100 : 500;
+    if (media && media.size > maxMediaSize * 1024 * 1024) {
+      setMessage(`${form.type === 'audio' ? 'Audio' : 'Video'} files must be under ${maxMediaSize} MB.`);
+      return;
+    }
+    if (thumbnail && thumbnail.size > 10 * 1024 * 1024) {
+      setMessage('Thumbnail images must be under 10 MB.');
+      return;
+    }
 
     const body = new FormData();
     body.append('title', form.title.trim());
@@ -81,7 +88,6 @@ export default function EditPoetry() {
     body.append('language', form.language);
     body.append('tags', JSON.stringify(form.tags.split(',').map(tag => tag.trim()).filter(Boolean)));
     body.append('duration', form.duration);
-    body.append('thumbnailUrl', form.thumbnailUrl.trim());
     body.append('isFeatured', String(form.isFeatured));
     body.append('isPublished', String(form.isPublished));
     if (media) body.append('media', media);
@@ -134,8 +140,8 @@ export default function EditPoetry() {
           </label>
           <label className="flex flex-col gap-2">
             <span className={labelClass}>Type</span>
-            <select className="form-input" value={form.type} onChange={e => setField('type', e.target.value as Poetry['type'])}>
-              <option value="text">Written poem</option><option value="audio">Audio</option><option value="video">Video</option>
+            <select className="form-input" value={form.type} onChange={e => { setField('type', e.target.value as Poetry['type']); setMedia(null); }}>
+              <option value="text">Written poem</option><option value="audio">Audio — upload a file</option><option value="video">Video — upload a file</option>
             </select>
           </label>
           <label className="flex flex-col gap-2">
@@ -160,11 +166,35 @@ export default function EditPoetry() {
           )}
           {form.type !== 'text' && (
             <div className="flex flex-col gap-3 md:col-span-2">
-              <span className={labelClass}>Media file {poetry.hasMedia ? '(leave empty to keep current file)' : '(required)'}</span>
+              <div>
+                <span className={labelClass}>{form.type === 'audio' ? 'Audio file' : 'Video file'} {poetry.hasMedia ? '(optional — leave empty to keep the current file)' : '(required)'}</span>
+                <p className="mt-1 text-xs leading-relaxed text-ink/70">
+                  Upload from your device. The backend stores it in Google Drive, and site players fetch it after saving.
+                  {form.type === 'audio' ? ' Audio limit: 100 MB.' : ' Video limit: 500 MB.'}
+                </p>
+              </div>
               <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-ink/20 bg-ink/5 p-4 text-sm text-ink/80 hover:bg-ink/10">
                 <Upload size={16} />
                 <span className="min-w-0 flex-1 truncate">{media?.name || (poetry.hasMedia ? 'Replace current media' : `Choose ${form.type} file`)}</span>
-                <input className="sr-only" type="file" accept={form.type === 'audio' ? 'audio/*' : 'video/*'} onChange={e => setMedia(e.target.files?.[0] || null)} />
+                <input
+                  className="sr-only"
+                  type="file"
+                  accept={form.type === 'audio'
+                    ? 'audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/aac,audio/flac,audio/mp4,audio/x-m4a,.mp3,.wav,.ogg,.aac,.flac,.m4a'
+                    : 'video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo,video/mpeg,.mp4,.webm,.mov,.avi,.mpeg,.mpg'}
+                  onChange={e => {
+                    const selected = e.target.files?.[0] || null;
+                    const maxSize = form.type === 'audio' ? 100 : 500;
+                    if (selected && selected.size > maxSize * 1024 * 1024) {
+                      setMessage(`${form.type === 'audio' ? 'Audio' : 'Video'} files must be under ${maxSize} MB.`);
+                      setMedia(null);
+                      e.currentTarget.value = '';
+                      return;
+                    }
+                    setMessage('');
+                    setMedia(selected);
+                  }}
+                />
               </label>
               <label className="flex flex-col gap-2">
                 <span className={labelClass}>Duration in seconds</span>
@@ -173,12 +203,27 @@ export default function EditPoetry() {
             </div>
           )}
           <label className="flex flex-col gap-2 md:col-span-2">
-            <span className={labelClass}>Thumbnail URL</span>
-            <input className="form-input" type="url" value={form.thumbnailUrl} onChange={e => setField('thumbnailUrl', e.target.value)} placeholder="https://…" />
-          </label>
-          <label className="flex flex-col gap-2 md:col-span-2">
-            <span className={labelClass}>Or upload a thumbnail image</span>
-            <input className="form-input file:mr-4 file:rounded-full file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:text-ink" type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={e => setThumbnail(e.target.files?.[0] || null)} />
+            <span className={labelClass}>Thumbnail image (one file, optional)</span>
+            {poetry.thumbnailUrl && !thumbnail && (
+              <img src={poetry.thumbnailUrl} alt="Current thumbnail" className="h-28 w-40 rounded-xl border border-ink/10 object-cover" />
+            )}
+            <input
+              className="form-input file:mr-4 file:rounded-full file:border-0 file:bg-ink/10 file:px-4 file:py-2 file:text-sm file:text-ink"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              onChange={e => {
+                const selected = e.target.files?.[0] || null;
+                if (selected && selected.size > 10 * 1024 * 1024) {
+                  setMessage('Thumbnail images must be under 10 MB.');
+                  setThumbnail(null);
+                  e.currentTarget.value = '';
+                  return;
+                }
+                setMessage('');
+                setThumbnail(selected);
+              }}
+            />
+            {thumbnail && <span className="text-xs text-ink/70">Selected: {thumbnail.name}</span>}
           </label>
           <div className="flex flex-wrap gap-x-8 gap-y-3 md:col-span-2">
             <label className="flex items-center gap-2 text-sm text-ink/80"><input type="checkbox" checked={form.isFeatured} onChange={e => setField('isFeatured', e.target.checked)} /> Featured</label>

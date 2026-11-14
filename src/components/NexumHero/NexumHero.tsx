@@ -18,7 +18,6 @@ const NAV_LINKS = [
 const VIDEO_URL =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4';
 
-const AVATAR_URL = 'https://i.pravatar.cc/72?img=12';
 
 /* ─── Dark gradient pill button ──────────────────────────────────────────── */
 function GradientButton({
@@ -32,8 +31,8 @@ function GradientButton({
   href?: string;
   onClick?: () => void;
 }) {
-  const base = `rounded-full text-xs font-mono font-bold tracking-widest uppercase text-ink transition-opacity hover:opacity-90 ${className}`;
-  const style = { background: 'linear-gradient(to bottom, #dce8d3, #c5d7bd)' };
+  const base = `rounded-full text-xs font-mono font-bold tracking-widest uppercase text-white transition-opacity hover:opacity-90 ${className}`;
+  const style = { background: 'linear-gradient(to bottom, #344b40, #203029)' };
   if (href) {
     return (
       <Link href={href} className={base} style={style}>
@@ -99,7 +98,7 @@ export default function NexumHero() {
         style={{
           zIndex: 1,
           background:
-            'linear-gradient(180deg, rgba(250,247,240,0.76) 0%, rgba(250,247,240,0.86) 48%, rgba(250,247,240,0.95) 100%)',
+            'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.26) 100%)',
         }}
       />
 
@@ -111,20 +110,20 @@ export default function NexumHero() {
         {/* ════════════════════════════════════════════════════════════════ */}
         <nav
           className={`flex items-center justify-between px-5 py-4 sm:px-8 sm:py-5 lg:px-12 transition-all duration-300 ${
-            scrolled ? 'bg-white/70 backdrop-blur-md' : ''
+            scrolled ? 'bg-black/20 backdrop-blur-md' : ''
           }`}
         >
           {/* ── Logo ────────────────────────────────────────────────────── */}
           <Link
             href="/"
             aria-label="Kathanak home"
-            className="group flex items-center gap-2 rounded-full border border-ink/20 bg-ink/10 px-4 py-2 backdrop-blur-lg transition-all duration-300 hover:bg-ink/20"
+            className="group flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-lg transition-all duration-300 hover:bg-white/20"
           >
             <Disc
               size={18}
-              className="text-ink transition-transform duration-700 group-hover:rotate-180"
+              className="text-white transition-transform duration-700 group-hover:rotate-180"
             />
-            <span className="text-sm font-black uppercase tracking-tighter text-ink leading-none">
+            <span className="text-sm font-black uppercase tracking-tighter text-white leading-none">
               Kathanak
             </span>
           </Link>
@@ -132,7 +131,7 @@ export default function NexumHero() {
           {/* ── Desktop glass pill nav cluster ──────────────────────────── */}
           <div className="hidden md:flex items-center gap-3">
             {/* Glass pill wrapping all links */}
-            <div className="flex items-center rounded-full border border-ink/15 bg-ink/10 px-1.5 py-1.5 backdrop-blur-lg gap-1">
+            <div className="flex items-center rounded-full border border-white/15 bg-white/10 px-1.5 py-1.5 backdrop-blur-lg gap-1">
               {NAV_LINKS.map(({ href, label }) => {
                 const active = pathname === href;
                 return (
@@ -142,7 +141,7 @@ export default function NexumHero() {
                     className={`rounded-full px-4 py-1.5 text-xs font-mono font-bold tracking-widest transition-all duration-200 ${
                       active
                         ? 'bg-white text-[#111] shadow-sm'
-                        : 'text-ink/90 hover:bg-ink/10 hover:text-ink'
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
                     }`}
                   >
                     {label}
@@ -163,7 +162,7 @@ export default function NexumHero() {
           {/* ── Mobile hamburger ────────────────────────────────────────── */}
           <button
             id="kathanak-menu-toggle"
-            className="relative md:hidden h-10 w-10 rounded-full border border-ink/20 bg-ink/10 backdrop-blur-lg flex items-center justify-center"
+            className="relative md:hidden h-10 w-10 rounded-full border border-white/20 bg-white/10 backdrop-blur-lg flex items-center justify-center"
             style={{ zIndex: 50 }}
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -172,7 +171,7 @@ export default function NexumHero() {
             {/* Menu icon */}
             <Menu
               size={18}
-              className={`absolute text-ink transition-all duration-300 ${
+              className={`absolute text-white transition-all duration-300 ${
                 menuOpen
                   ? 'rotate-90 scale-0 opacity-0'
                   : 'rotate-0 scale-100 opacity-100'
@@ -181,7 +180,7 @@ export default function NexumHero() {
             {/* X icon */}
             <X
               size={18}
-              className={`absolute text-ink transition-all duration-300 ${
+              className={`absolute text-white transition-all duration-300 ${
                 menuOpen
                   ? 'rotate-0 scale-100 opacity-100'
                   : '-rotate-90 scale-0 opacity-0'
@@ -207,7 +206,7 @@ export default function NexumHero() {
         {/* Drawer panel */}
         <div
           id="kathanak-drawer"
-          className={`fixed right-0 top-0 h-full w-72 bg-[#fffdf7]/95 backdrop-blur-xl flex flex-col md:hidden transition-transform duration-500 ${
+          className={`fixed right-0 top-0 h-full w-72 bg-black/90 backdrop-blur-xl flex flex-col md:hidden transition-transform duration-500 ${
             menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           style={{
@@ -217,14 +216,14 @@ export default function NexumHero() {
         >
           {/* Drawer header — logo */}
           <div className="flex items-center gap-2 px-6 pt-8 pb-0">
-            <Disc size={18} className="text-ink/75 animate-spin-slow" />
-            <span className="text-sm font-black uppercase tracking-tighter text-ink/90">
+            <Disc size={18} className="text-white/60 animate-spin-slow" />
+            <span className="text-sm font-black uppercase tracking-tighter text-white/80">
               Kathanak
             </span>
           </div>
 
           {/* Divider */}
-          <div className="mx-6 mt-5 mb-0 h-px bg-ink/10" />
+          <div className="mx-6 mt-5 mb-0 h-px bg-white/10" />
 
           {/* Links */}
           <div className="flex flex-col gap-1 px-4 pt-4">
@@ -236,8 +235,8 @@ export default function NexumHero() {
                   href={href}
                   className={`flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-mono font-bold tracking-widest uppercase transition-all duration-200 ${
                     active
-                      ? 'bg-ink/15 text-ink'
-                      : 'text-ink/80 hover:bg-ink/10 hover:text-ink'
+                      ? 'bg-white/15 text-white'
+                      : 'text-white/70 hover:bg-white/10 hover:text-white'
                   }`}
                   style={
                     mounted
@@ -252,7 +251,7 @@ export default function NexumHero() {
                 >
                   {label}
                   {active && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-ink/60" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/60" />
                   )}
                 </Link>
               );
@@ -288,15 +287,15 @@ export default function NexumHero() {
           <div className="flex flex-col nexum-fadeup" style={{ animationDelay: '0ms' }}>
             <div className="max-w-xl">
               {/* Eyebrow */}
-              <p className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-ink/75">
+              <p className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-white/60">
                 Poetry Platform
               </p>
               {/* Main headline */}
-              <h1 className="text-3xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-4xl lg:text-[3.5rem]">
+              <h1 className="text-3xl font-semibold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-[3.5rem]">
                 Where words breathe, bleed and become poetry
               </h1>
               {/* Sub-headline */}
-              <p className="mt-4 text-sm leading-relaxed text-ink/80 max-w-md">
+              <p className="mt-4 text-sm leading-relaxed text-white/70 max-w-md">
                 Listen, watch and read original poetries in Hindi, Urdu and English.
                 Let the words reach your heart.
               </p>
@@ -308,8 +307,8 @@ export default function NexumHero() {
               <div className="inline-flex items-center rounded-full bg-[#e8dfca] p-1.5">
                 <Link
                   href="/read"
-                  className="rounded-full px-5 py-2 text-xs font-mono font-bold uppercase tracking-widest text-ink transition-opacity hover:opacity-90"
-                  style={{ background: 'linear-gradient(to bottom, #dce8d3, #c5d7bd)' }}
+                  className="rounded-full px-5 py-2 text-xs font-mono font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90"
+                  style={{ background: 'linear-gradient(to bottom, #344b40, #203029)' }}
                 >
                   Start Reading
                 </Link>
@@ -317,70 +316,13 @@ export default function NexumHero() {
               {/* Secondary ghost */}
               <Link
                 href="/listen"
-                className="rounded-full border border-ink/25 bg-ink/10 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-widest text-ink/90 backdrop-blur-sm transition-all duration-200 hover:bg-ink/20 hover:text-ink"
+                className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-widest text-white/80 backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:text-white"
               >
                 Listen Now
               </Link>
             </div>
           </div>
 
-          {/* ── Right: Glass Cards ────────────────────────────────────── */}
-          <div
-            className="flex w-full flex-col gap-4 sm:flex-row lg:w-auto lg:gap-5 nexum-fadeup"
-            style={{ animationDelay: '150ms' }}
-          >
-            {/* Stats Card */}
-            <div className="nexum-card relative flex min-h-[160px] flex-col justify-between rounded-2xl border border-ink/10 bg-ink/10 p-5 backdrop-blur-lg sm:w-60 sm:p-6">
-              <div
-                className="text-3xl tracking-tight text-ink sm:text-4xl"
-                style={{ fontFamily: "'Silkscreen', cursive", fontWeight: 'normal' }}
-              >
-                150K+
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-ink/80 sm:mt-4">
-                Artists &amp; readers celebrating poetry and creativity together.
-              </p>
-            </div>
-
-            {/* Quote / Testimonial Card */}
-            <div className="nexum-card relative flex flex-col rounded-2xl border border-ink/10 bg-ink/10 p-5 backdrop-blur-lg sm:w-60 sm:p-6">
-              {/* Brand row */}
-              <div className="mb-3 flex items-center gap-2 sm:mb-4">
-                <div className="flex h-6 w-6 items-center justify-center rounded bg-ink/10 border border-ink/20">
-                  <Disc size={12} className="text-ink/90" />
-                </div>
-                <span className="text-xs font-mono font-bold uppercase tracking-widest text-ink/90">
-                  Kathanak
-                </span>
-              </div>
-
-              {/* Quote */}
-              <p className="text-sm leading-relaxed text-ink/90 italic">
-                &ldquo;A window into the soul — transcending conventional artistic boundaries, one verse at a time.&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="mt-4 flex items-center gap-3 sm:mt-5">
-                <img
-                  src={AVATAR_URL}
-                  alt="Community reader"
-                  width={36}
-                  height={36}
-                  className="h-9 w-9 rounded-full object-cover"
-                  style={{ background: 'rgba(38,51,45,0.08)' }}
-                  referrerPolicy="no-referrer"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-ink">
-                    Community Reader
-                  </span>
-                  <span className="text-xs text-ink/70">
-                    Poetry Enthusiast
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
