@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { getAdminKey, logoutAdmin } from '@/lib/api';
-import { LayoutDashboard, FileAudio, Settings, MessageSquare, LogOut, Disc } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Settings, MessageSquare, LogOut, Disc } from 'lucide-react';
 
 const NAV_ITEMS = [
   { href: '/admin',           label: 'DASHBOARD', icon: <LayoutDashboard size={15} /> },
-  { href: '/admin/poetries',  label: 'ARCHIVES',  icon: <FileAudio size={15} /> },
+  { href: '/admin/poetries',  label: 'POETRIES',  icon: <BookOpen size={15} /> },
   { href: '/admin/config',    label: 'CONFIG',    icon: <Settings size={15} /> },
   { href: '/admin/feedback',  label: 'INBOX',     icon: <MessageSquare size={15} /> },
 ];
@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
       <div
         className="min-h-screen"
-        style={{ background: '#050505', fontFamily: "'Geist', sans-serif" }}
+        style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}
       >
         {children}
       </div>
@@ -53,12 +53,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div
       className="flex min-h-screen"
-      style={{ background: '#070707', fontFamily: "'Geist', sans-serif" }}
+      style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}
     >
       {/* ── Sidebar ──────────────────────────────────────────────────── */}
       <aside
         className="hidden md:flex w-60 flex-col border-r border-white/8 shrink-0"
-        style={{ background: '#0a0a0a' }}
+        style={{ background: '#202d28' }}
       >
         {/* Brand */}
         <div className="px-5 py-6 border-b border-white/8">
@@ -122,7 +122,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* ── Mobile top bar ───────────────────────────────────────────── */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-b border-white/8 bg-[#0a0a0a]/95 backdrop-blur-xl">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 border-b border-white/8 bg-[#202d28]/95 backdrop-blur-xl">
         <Link href="/" className="flex items-center gap-2">
           <Disc size={14} className="text-white/50" />
           <span className="text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-white/70">

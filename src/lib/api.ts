@@ -97,11 +97,40 @@ export async function fetchPoetrys(params: FetchPoetryParams = {}): Promise<Pagi
   if (params.search) query.set('search', params.search);
   if (params.sort) query.set('sort', params.sort);
 
-  const res = await fetch(`${API_BASE}/poetry?${query}`, {
-    next: { revalidate: 60 }, // ISR — revalidate every 60s
-  });
+  const res = await fetch(`${API_BASE}/poetry?${query}`, { cache: 'no-store' });
 
   if (!res.ok) throw new Error(`Failed to fetch poetrys: ${res.statusText}`);
+  return res.json();
+}
+
+// Admin reads bypass the public published-only feed and every browser/Next cache.
+export async function fetchAdminPoetries(params: FetchPoetryParams = {}): Promise<PaginatedResponse> {
+  const query = new URLSearchParams();
+  if (params.type) query.set('type', params.type);
+  if (params.page) query.set('page', String(params.page));
+  if (params.limit) query.set('limit', String(params.limit));
+  if (params.search) query.set('search', params.search);
+
+  const res = await fetch(`${API_BASE}/poetry/admin?${query.toString()}`, {
+    headers: getHeaders(true),
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || `Failed to load admin poetries (${res.status})`);
+  }
+  return res.json();
+}
+
+export async function fetchAdminPoetry(id: string): Promise<SingleResponse> {
+  const res = await fetch(`${API_BASE}/poetry/admin/${encodeURIComponent(id)}`, {
+    headers: getHeaders(true),
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || `Failed to load poetry (${res.status})`);
+  }
   return res.json();
 }
 
@@ -122,9 +151,7 @@ export async function fetchConfig(): Promise<{ success: boolean; data: SiteConfi
 
 // ── Fetch single poetry ───────────────────────────────────────────────────
 export async function fetchPoetry(idOrSlug: string): Promise<SingleResponse> {
-  const res = await fetch(`${API_BASE}/poetry/${idOrSlug}`, {
-    next: { revalidate: 30 },
-  });
+  const res = await fetch(`${API_BASE}/poetry/${encodeURIComponent(idOrSlug)}`, { cache: 'no-store' });
   if (!res.ok) throw new Error(`Poetry not found: ${res.statusText}`);
   return res.json();
 }
@@ -136,8 +163,11 @@ export function getStreamUrl(poetryId: string): string {
 
 // ── Like a poetry ─────────────────────────────────────────────────────────
 export async function likePoetry(id: string): Promise<{ success: boolean; data: { likes: number } }> {
-  const res = await fetch(`${API_BASE}/poetry/${id}/like`, { method: 'POST' });
-  if (!res.ok) throw new Error('Failed to like');
+  const res = await fetch(`${API_BASE}/poetry/${encodeURIComponent(id)}/like`, { method: 'POST' });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || 'Failed to like');
+  }
   return res.json();
 }
 
@@ -153,6 +183,10 @@ export async function submitFeedbackToAPI(data: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || `Failed to send feedback (${res.status})`);
+  }
   return res.json();
 }
 
@@ -176,6 +210,7 @@ export function formatDate(dateStr: string): string {
 // ── ADMIN: Check Google Auth Status ───────────────────────────────────────
 export async function fetchAuthStatus(): Promise<{ success: boolean; authorized: boolean; message: string }> {
   const res = await fetch(`${API_BASE}/auth/status`, { headers: getHeaders(true) });
+  if (!res.ok) throw new Error(`Could not check Google Drive status (${res.status})`);
   return res.json();
 }
 
@@ -218,10 +253,26 @@ export async function uploadPoetry(formData: FormData): Promise<{ success: boole
   return res.json();
 }
 
+export async function updatePoetry(id: string, formData: FormData): Promise<{ success: boolean; data: Poetry }> {
+  const res = await fetch(`${API_BASE}/poetry/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: getHeaders(true),
+    body: formData,
+  });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || `Failed to update poetry (${res.status})`);
+  }
+  return res.json();
+}
+
 // ── ADMIN: Fetch feedback ─────────────────────────────────────────────────
 export async function fetchFeedback(): Promise<{ success: boolean; data: any[] }> {
   const res = await fetch(`${API_BASE}/feedback`, { headers: getHeaders(true) });
-  if (!res.ok) throw new Error('Failed to fetch feedback');
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || `Failed to fetch feedback (${res.status})`);
+  }
   return res.json();
 }
 
@@ -231,6 +282,9 @@ export async function deleteFeedback(id: string): Promise<{ success: boolean }> 
     method: 'DELETE',
     headers: getHeaders(true),
   });
-  if (!res.ok) throw new Error('Failed to delete feedback');
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || `Failed to delete feedback (${res.status})`);
+  }
   return res.json();
 }

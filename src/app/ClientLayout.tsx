@@ -24,7 +24,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           minHeight: '100dvh',
           display: 'flex',
           flexDirection: 'column',
-          background: '#080808',
+          background: '#17231f',
         }}
       >
         {children}

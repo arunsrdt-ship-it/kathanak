@@ -5,6 +5,7 @@ import { ArrowLeft, Heart, Eye, Clock, Music } from 'lucide-react';
 import { fetchPoetry, fetchPoetrys, formatDate, formatDuration } from '@/lib/api';
 import AudioPlayer from '@/components/AudioPlayer/AudioPlayer';
 import PoetryCard from '@/components/PoetryCard/PoetryCard';
+import LikeButton from '@/components/LikeButton/LikeButton';
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -50,7 +51,7 @@ export default async function ListenDetailPage({ params }: Props) {
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="badge badge-audio"><Music size={11} strokeWidth={2.5}/> AUDIO</span>
                 {poetry.isFeatured && <span className="badge badge-featured">FEATURED</span>}
-                <span className="badge bg-white">{poetry.language}</span>
+                <span className="badge bg-white/10 text-text-primary">{poetry.language}</span>
               </div>
               <h1 className="font-display text-[clamp(3rem,6vw,5rem)] font-black leading-[0.9] tracking-tighter uppercase mb-6">
                 {poetry.title}
@@ -71,10 +72,10 @@ export default async function ListenDetailPage({ params }: Props) {
             </div>
 
             {/* Tags */}
-            {poetry.tags.length > 0 && (
+            {(poetry.tags ?? []).length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {poetry.tags.map(tag => (
-                  <span key={tag} className="badge bg-white text-text-muted">
+                  <span key={tag} className="badge bg-white/10 text-text-primary">
                     #{tag}
                   </span>
                 ))}
@@ -96,9 +97,7 @@ export default async function ListenDetailPage({ params }: Props) {
           <div className="lg:sticky lg:top-28 h-fit flex flex-col gap-6">
             <AudioPlayer poetryId={poetry._id} title={poetry.title} thumbnailUrl={poetry.thumbnailUrl} />
 
-            <button className="btn-primary w-full shadow-brutalist hover:shadow-brutalist-hover bg-accent-beige text-accent-dark border-border">
-              <Heart size={16} /> LIKE THIS POETRY
-            </button>
+            <LikeButton id={poetry._id} initialLikes={poetry.likes || 0} className="w-full [&>button]:w-full" />
           </div>
         </div>
 

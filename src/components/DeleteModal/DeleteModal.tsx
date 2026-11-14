@@ -14,7 +14,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, title, isDelet
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
       <div
-        className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#0f0f0f] overflow-hidden"
+        className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#202d28] overflow-hidden"
         style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06) inset' }}
       >
         {/* Header */}

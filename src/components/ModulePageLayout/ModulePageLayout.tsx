@@ -37,7 +37,7 @@ export default function ModulePageLayout({
   const cfg = typeConfig[type];
 
   return (
-    <div className="min-h-screen" style={{ background: '#080808', fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Cinematic page header ────────────────────────────────────── */}
       <div
@@ -46,7 +46,7 @@ export default function ModulePageLayout({
           background: `
             radial-gradient(ellipse at 20% 50%, ${cfg.glow} 0%, transparent 60%),
             radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 50%),
-            #090909
+            #202d28
           `,
         }}
       >

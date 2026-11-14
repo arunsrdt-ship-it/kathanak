@@ -9,26 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* Dark cinematic palette */
+        /* Deep forest and warm parchment palette */
         bg: {
-          DEFAULT: '#080808',
-          alt:     '#111111',
-          card:    'rgba(255,255,255,0.06)',
+          DEFAULT: '#17231f',
+          alt:     '#202d28',
+          card:    'rgba(244,234,214,0.06)',
         },
         accent: {
           beige: 'rgba(255,220,150,0.15)',
           blue:  'rgba(150,200,255,0.15)',
-          dark:  '#ffffff',
-          gold:  '#c9a84c',
+          dark:  '#17231f',
+          gold:  '#d6aa62',
         },
         text: {
-          primary:   'rgba(255,255,255,0.92)',
-          secondary: 'rgba(255,255,255,0.65)',
-          muted:     'rgba(255,255,255,0.40)',
+          primary:   '#f3eee2',
+          secondary: 'rgba(243,238,226,0.72)',
+          muted:     'rgba(243,238,226,0.52)',
         },
         border: {
-          DEFAULT: 'rgba(255,255,255,0.10)',
-          light:   'rgba(255,255,255,0.06)',
+          DEFAULT: 'rgba(244,234,214,0.13)',
+          light:   'rgba(244,234,214,0.08)',
         },
       },
       fontFamily: {

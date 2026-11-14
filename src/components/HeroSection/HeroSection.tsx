@@ -140,7 +140,7 @@ export default function HeroSection({ config }: Props) {
             <div className="border-2 border-border rounded-t-full overflow-hidden relative aspect-[3/4] bg-bg-alt brutalist-card group">
               <div className="absolute inset-0 bg-[url('/images/poet-portrait.png')] bg-cover bg-center grayscale contrast-125 transition-transform duration-700 group-hover:scale-105" />
               
-              <div className="absolute bottom-4 left-4 right-4 bg-white border-2 border-border p-2 flex justify-between items-center z-10 brutalist-card shadow-none">
+              <div className="absolute bottom-4 left-4 right-4 poetry-paper text-[#26332d] p-2 flex justify-between items-center z-10">
                 <span className="font-display font-black text-2xl tracking-tighter leading-none">MM</span>
                 <span className="font-mono text-[8px] font-bold tracking-widest">•0101</span>
               </div>

@@ -5,6 +5,7 @@ import { ArrowLeft, Heart, Eye, Clock, Video } from 'lucide-react';
 import { fetchPoetry, fetchPoetrys, formatDate, formatDuration } from '@/lib/api';
 import VideoPlayer from '@/components/VideoPlayer/VideoPlayer';
 import PoetryCard from '@/components/PoetryCard/PoetryCard';
+import LikeButton from '@/components/LikeButton/LikeButton';
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -46,7 +47,7 @@ export default async function WatchDetailPage({ params }: Props) {
             <div className="flex flex-wrap gap-2 mb-6">
               <span className="badge badge-video"><Video size={11} strokeWidth={2.5}/> VIDEO</span>
               {poetry.isFeatured && <span className="badge badge-featured">FEATURED</span>}
-              <span className="badge bg-white">{poetry.language}</span>
+              <span className="badge bg-white/10 text-text-primary">{poetry.language}</span>
             </div>
             <h1 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] font-black leading-[0.9] tracking-tighter uppercase mb-6">
               {poetry.title}
@@ -74,22 +75,20 @@ export default async function WatchDetailPage({ params }: Props) {
         {/* Secondary info (Lyrics/Tags) */}
         <div className="max-w-[1000px] mx-auto w-full grid grid-cols-1 md:grid-cols-[1fr_300px] gap-12 mt-8">
            {poetry.content ? (
-              <div className="brutalist-card bg-white p-8">
+              <div className="poetry-paper p-8">
                 <h2 className="font-display text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-border pb-4">POEM TEXT</h2>
-                <div className="font-prose text-lg text-text-primary leading-[1.8] whitespace-pre-wrap">{poetry.content}</div>
+                <div className="font-prose text-lg text-[#23302b] leading-[1.8] whitespace-pre-wrap">{poetry.content}</div>
               </div>
             ) : <div />}
 
             <div className="flex flex-col gap-6">
-               <button className="btn-primary w-full shadow-brutalist hover:shadow-brutalist-hover bg-accent-blue text-accent-dark border-border">
-                 <Heart size={16} /> LIKE THIS POETRY
-               </button>
-               {poetry.tags.length > 0 && (
+               <LikeButton id={poetry._id} initialLikes={poetry.likes || 0} className="w-full [&>button]:w-full" />
+              {(poetry.tags ?? []).length > 0 && (
                 <div className="brutalist-card bg-bg-alt p-6 mt-4">
                   <h3 className="font-mono text-[10px] font-bold tracking-widest uppercase mb-4 border-b-2 border-border pb-2">TAGS</h3>
                   <div className="flex flex-wrap gap-2">
                     {poetry.tags.map(tag => (
-                      <span key={tag} className="badge bg-white">#{tag}</span>
+                      <span key={tag} className="badge bg-white/10 text-text-primary">#{tag}</span>
                     ))}
                   </div>
                 </div>

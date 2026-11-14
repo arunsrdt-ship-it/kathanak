@@ -1,9 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchPoetrys, fetchPoetry, fetchConfig, updateConfig, deletePoetry, fetchFeedback, deleteFeedback } from './api';
+import {
+  fetchPoetrys, fetchAdminPoetries, fetchAdminPoetry, fetchPoetry,
+  fetchConfig, updateConfig, updatePoetry, deletePoetry, fetchFeedback, deleteFeedback,
+  type FetchPoetryParams,
+} from './api';
 
 // --- Poetry Hooks ---
 
-export const usePoetries = (query: Record<string, string | number | boolean> = {}) => {
+export const usePoetries = (query: FetchPoetryParams = {}) => {
   return useQuery({
     queryKey: ['poetries', query],
     queryFn: () => fetchPoetrys(query),
@@ -18,12 +22,41 @@ export const usePoetry = (idOrSlug: string) => {
   });
 };
 
+export const useAdminPoetries = (query: FetchPoetryParams = {}) => {
+  return useQuery({
+    queryKey: ['admin-poetries', query],
+    queryFn: () => fetchAdminPoetries(query),
+  });
+};
+
+export const useAdminPoetry = (id: string) => {
+  return useQuery({
+    queryKey: ['admin-poetry', id],
+    queryFn: () => fetchAdminPoetry(id),
+    enabled: !!id,
+  });
+};
+
 export const useDeletePoetry = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deletePoetry(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['poetries'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-poetries'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-poetry'] });
+    },
+  });
+};
+
+export const useUpdatePoetry = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: FormData }) => updatePoetry(id, formData),
+    onSuccess: (_result, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['poetries'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-poetries'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-poetry', variables.id] });
     },
   });
 };

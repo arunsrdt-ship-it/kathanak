@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#080808', fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Cinematic header ──────────────────────────────────────────── */}
       <div
@@ -16,7 +16,7 @@ export default function AboutPage() {
           background: `
             radial-gradient(ellipse at 10% 60%, rgba(200,160,255,0.08) 0%, transparent 55%),
             radial-gradient(ellipse at 90% 20%, rgba(255,255,255,0.04) 0%, transparent 50%),
-            #090909
+            #202d28
           `,
         }}
       >

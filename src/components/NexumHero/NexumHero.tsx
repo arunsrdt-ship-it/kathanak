@@ -33,7 +33,7 @@ function GradientButton({
   onClick?: () => void;
 }) {
   const base = `rounded-full text-xs font-mono font-bold tracking-widest uppercase text-white transition-opacity hover:opacity-90 ${className}`;
-  const style = { background: 'linear-gradient(to bottom, #2B2B2B, #101010)' };
+  const style = { background: 'linear-gradient(to bottom, #344b40, #203029)' };
   if (href) {
     return (
       <Link href={href} className={base} style={style}>
@@ -305,11 +305,11 @@ export default function NexumHero() {
             {/* CTA row */}
             <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
               {/* Primary — inside a white capsule */}
-              <div className="inline-flex items-center rounded-full bg-white p-1.5">
+              <div className="inline-flex items-center rounded-full bg-[#e8dfca] p-1.5">
                 <Link
                   href="/read"
                   className="rounded-full px-5 py-2 text-xs font-mono font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90"
-                  style={{ background: 'linear-gradient(to bottom, #2B2B2B, #101010)' }}
+                  style={{ background: 'linear-gradient(to bottom, #344b40, #203029)' }}
                 >
                   Start Reading
                 </Link>

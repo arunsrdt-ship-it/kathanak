@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { uploadPoetry } from '@/lib/api';
 import { ArrowLeft, Save, Upload, AlertTriangle, CheckCircle } from 'lucide-react';
@@ -49,9 +50,13 @@ function Toggle({
 }) {
   return (
     <label className="flex items-center gap-3 cursor-pointer group">
-      {/* Custom pill toggle */}
-      <div
-        onClick={() => onChange(!checked)}
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={event => onChange(event.target.checked)}
+        className="peer sr-only"
+      />
+      <span
         className={`relative h-5 w-9 rounded-full border transition-all duration-300 ${
           checked
             ? 'bg-white/20 border-white/30'
@@ -64,7 +69,7 @@ function Toggle({
           }`}
           style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
         />
-      </div>
+      </span>
       <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-white/45 group-hover:text-white/65 transition-colors">
         {label}
       </span>
@@ -74,6 +79,7 @@ function Toggle({
 
 export default function NewPoetry() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState('');
 
@@ -90,12 +96,21 @@ export default function NewPoetry() {
   });
 
   const [file, setFile] = useState<File | null>(null);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const set = (k: string, v: string | boolean) =>
     setFormData(p => ({ ...p, [k]: v }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.type === 'text' && !formData.content.trim()) {
+      setError('Please add the poem text before saving.');
+      return;
+    }
+    if ((formData.type === 'audio' || formData.type === 'video') && !file) {
+      setError(`Please choose a ${formData.type} file before saving.`);
+      return;
+    }
     setLoading(true); setError('');
     try {
       const data = new FormData();
@@ -110,12 +125,16 @@ export default function NewPoetry() {
       if (file && (formData.type === 'audio' || formData.type === 'video')) {
         data.append('media', file);
       }
+      if (thumbnailFile) data.append('thumbnail', thumbnailFile);
       await uploadPoetry(data);
+      await queryClient.invalidateQueries({ queryKey: ['admin-poetries'] });
+      await queryClient.invalidateQueries({ queryKey: ['poetries'] });
       router.push('/admin/poetries');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to upload poetry');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -265,6 +284,7 @@ export default function NewPoetry() {
             <FieldLabel>Poem Text / Lyrics</FieldLabel>
             <textarea
               rows={12}
+              required={formData.type === 'text'}
               className="form-input resize-y"
               style={{ fontFamily: "'Crimson Pro', serif", fontSize: '1.05rem', lineHeight: '1.8' }}
               value={formData.content}
@@ -272,6 +292,17 @@ export default function NewPoetry() {
               placeholder="The text of the poetry..."
             />
           </div>
+        </div>
+
+        <div className="rounded-2xl border border-white/8 bg-white/4 p-6 backdrop-blur-sm">
+          <FieldLabel>Thumbnail image (optional)</FieldLabel>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            onChange={e => setThumbnailFile(e.target.files?.[0] || null)}
+            className="form-input mt-3 file:mr-4 file:rounded-full file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-sm file:text-white"
+          />
+          {thumbnailFile && <p className="mt-2 text-xs text-white/50">{thumbnailFile.name}</p>}
         </div>
 
         {/* Toggles + submit */}

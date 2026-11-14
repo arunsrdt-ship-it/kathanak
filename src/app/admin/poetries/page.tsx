@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { type Poetry, formatDate } from '@/lib/api';
-import { usePoetries, useDeletePoetry } from '@/lib/hooks';
-import { Plus, Edit2, Trash2, Search, FileAudio, FileVideo, FileText } from 'lucide-react';
+import { useAdminPoetries, useDeletePoetry } from '@/lib/hooks';
+import { Plus, Edit2, Trash2, Search, FileAudio, FileVideo, FileText, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 import DeleteModal from '@/components/DeleteModal/DeleteModal';
 
 const typeIcon = {
@@ -17,8 +17,9 @@ export default function AdminPoetries() {
   const [search,      setSearch]      = useState('');
   const [deleteId,    setDeleteId]    = useState<string | null>(null);
   const [deleteTitle, setDeleteTitle] = useState('');
+  const [page,        setPage]        = useState(1);
 
-  const { data: res, isLoading: loading } = usePoetries({ limit: 100 });
+  const { data: res, isLoading: loading, isError, error } = useAdminPoetries({ limit: 100, page, search });
   const deleteMutation = useDeletePoetry();
   const poetries: Poetry[] = res?.data || [];
 
@@ -30,10 +31,7 @@ export default function AdminPoetries() {
     });
   };
 
-  const filtered = poetries.filter(
-    p => p.title.toLowerCase().includes(search.toLowerCase()) ||
-         p.type.includes(search.toLowerCase())
-  );
+  const filtered = poetries;
 
   return (
     <div className="p-6 md:p-10 max-w-full">
@@ -41,10 +39,10 @@ export default function AdminPoetries() {
       <div className="mb-8 pb-6 border-b border-white/8 flex flex-col md:flex-row md:items-end justify-between gap-5">
         <div>
           <p className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-white/25 mb-1">
-            POETRY MANAGEMENT
+            ALL ENTRIES · INCLUDING DRAFTS
           </p>
           <h1 className="font-display text-3xl font-bold tracking-tight text-white/85">
-            Archives
+            Your poetries
           </h1>
         </div>
         <Link href="/admin/poetries/new" className="btn-primary shrink-0">
@@ -60,14 +58,21 @@ export default function AdminPoetries() {
             type="text"
             placeholder="Search entries..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => { setSearch(e.target.value); setPage(1); }}
             className="form-input pl-9 w-full"
           />
         </div>
         <span className="font-mono text-[9px] font-bold tracking-[0.18em] uppercase text-white/25 ml-auto shrink-0">
-          {filtered.length} ENTRIES
+          {res?.pagination.total ?? 0} ENTRIES
         </span>
       </div>
+
+      {isError && (
+        <div className="mb-5 flex items-start gap-3 rounded-xl border border-red-400/20 bg-red-400/8 px-4 py-3 text-red-100/80">
+          <AlertTriangle size={15} className="mt-0.5 shrink-0" />
+          <p className="text-sm">{error instanceof Error ? error.message : 'Could not load your poetries.'}</p>
+        </div>
+      )}
 
       {/* Table */}
       <div className="rounded-2xl border border-white/8 bg-white/3 overflow-hidden">
@@ -173,6 +178,30 @@ export default function AdminPoetries() {
           </table>
         </div>
       </div>
+
+      {!loading && (res?.pagination.pages ?? 1) > 1 && (
+        <div className="mt-5 flex items-center justify-between">
+          <span className="font-mono text-xs text-white/45">
+            Page {res?.pagination.page} of {res?.pagination.pages}
+          </span>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="btn-outline px-3 py-2"
+              disabled={page <= 1}
+              onClick={() => setPage(value => Math.max(1, value - 1))}
+              aria-label="Previous page"
+            ><ChevronLeft size={15} /></button>
+            <button
+              type="button"
+              className="btn-outline px-3 py-2"
+              disabled={page >= (res?.pagination.pages ?? 1)}
+              onClick={() => setPage(value => value + 1)}
+              aria-label="Next page"
+            ><ChevronRight size={15} /></button>
+          </div>
+        </div>
+      )}
 
       <DeleteModal
         isOpen={!!deleteId}

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, Heart, Eye, BookOpen } from 'lucide-react';
 import { fetchPoetry, fetchPoetrys, formatDate } from '@/lib/api';
 import PoetryCard from '@/components/PoetryCard/PoetryCard';
+import LikeButton from '@/components/LikeButton/LikeButton';
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -38,12 +39,12 @@ export default async function ReadDetailPage({ params }: Props) {
       </div>
 
       {/* Editorial Header */}
-      <div className="border-b-2 border-border bg-white pt-24 pb-16">
+      <div className="border-b border-border bg-bg-alt pt-20 pb-14">
         <div className="max-w-[800px] mx-auto px-6 text-center">
           <div className="flex flex-wrap gap-2 justify-center mb-8">
             <span className="badge badge-text"><BookOpen size={11} strokeWidth={2.5}/> READ</span>
             {poetry.isFeatured && <span className="badge badge-featured">FEATURED</span>}
-            <span className="badge bg-white">{poetry.language}</span>
+            <span className="badge bg-white/10 text-text-primary">{poetry.language}</span>
           </div>
           
           <h1 className="font-display text-[clamp(3.5rem,8vw,6rem)] font-black leading-[0.85] tracking-tighter uppercase mb-8">
@@ -57,8 +58,8 @@ export default async function ReadDetailPage({ params }: Props) {
           )}
 
           <div className="flex items-center justify-center gap-8 mt-12 pt-8 border-t-2 border-border font-mono text-[10px] font-bold tracking-widest uppercase">
-            <span className="flex items-center gap-2"><Eye size={14} /> {poetry.views.toLocaleString()} VIEWS</span>
-            <span className="flex items-center gap-2"><Heart size={14} /> {poetry.likes.toLocaleString()} LIKES</span>
+            <span className="flex items-center gap-2"><Eye size={14} /> {Number(poetry.views || 0).toLocaleString()} VIEWS</span>
+            <span className="flex items-center gap-2"><Heart size={14} /> {Number(poetry.likes || 0).toLocaleString()} LIKES</span>
             <span>{formatDate(poetry.createdAt)}</span>
           </div>
         </div>
@@ -73,20 +74,18 @@ export default async function ReadDetailPage({ params }: Props) {
         </div>
 
         {poetry.content ? (
-          <article className="brutalist-card bg-white p-6 sm:p-12 md:p-20 relative z-10 max-w-[800px] mx-auto">
+          <article className="poetry-paper p-6 sm:p-12 md:p-20 relative z-10 max-w-[800px] mx-auto">
              <div className="absolute top-0 left-0 w-8 h-8 border-r-2 border-b-2 border-border" />
              <div className="absolute top-0 right-0 w-8 h-8 border-l-2 border-b-2 border-border" />
              <div className="absolute bottom-0 left-0 w-8 h-8 border-r-2 border-t-2 border-border" />
              <div className="absolute bottom-0 right-0 w-8 h-8 border-l-2 border-t-2 border-border" />
             
-            <div className="font-prose text-[1.4rem] md:text-[1.75rem] text-text-primary leading-[2.2] whitespace-pre-wrap tracking-wide text-center">
+            <div className="font-prose text-[1.4rem] md:text-[1.75rem] text-[#23302b] leading-[2] whitespace-pre-wrap tracking-wide text-center">
               {poetry.content}
             </div>
             
             <div className="flex justify-center mt-16 pt-8 border-t-2 border-dotted border-border">
-               <button className="btn-outline shadow-brutalist hover:shadow-brutalist-hover text-accent-dark">
-                 <Heart size={16} /> LIKE THIS PIECE
-               </button>
+               <LikeButton id={poetry._id} initialLikes={poetry.likes || 0} className="flex justify-center" />
             </div>
           </article>
         ) : (
@@ -96,10 +95,10 @@ export default async function ReadDetailPage({ params }: Props) {
         )}
 
         {/* Tags */}
-        {poetry.tags.length > 0 && (
+        {(poetry.tags ?? []).length > 0 && (
           <div className="flex flex-wrap gap-2 mt-12 justify-center max-w-[800px] mx-auto">
             {poetry.tags.map(tag => (
-              <span key={tag} className="badge bg-white">#{tag}</span>
+              <span key={tag} className="badge bg-white/10 text-text-primary">#{tag}</span>
             ))}
           </div>
         )}

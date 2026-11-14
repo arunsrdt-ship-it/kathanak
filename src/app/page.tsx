@@ -22,7 +22,7 @@ export default async function HomePage() {
   const latest   = allRes.status       === 'fulfilled' ? allRes.value.data       : [];
 
   return (
-    <div style={{ background: '#080808', fontFamily: "'Geist', sans-serif" }}>
+    <div style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Full-screen cinematic hero (own embedded nav) ──────────────── */}
       <NexumHero />
@@ -31,7 +31,7 @@ export default async function HomePage() {
       <section
         id="main-section"
         className="py-24 border-b border-white/8"
-        style={{ background: 'linear-gradient(180deg, #080808 0%, #0d0d0d 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #17231f 0%, #202d28 100%)' }}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <div className="mb-12 flex flex-col gap-2">
@@ -118,7 +118,7 @@ export default async function HomePage() {
       {featured.length > 0 && (
         <section
           className="py-24 border-b border-white/8"
-          style={{ background: '#0a0a0a' }}
+          style={{ background: '#202d28' }}
         >
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
@@ -147,7 +147,7 @@ export default async function HomePage() {
       {latest.length > 0 && (
         <section
           className="py-24 border-b border-white/8"
-          style={{ background: '#080808' }}
+          style={{ background: '#17231f' }}
         >
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="text-center mb-12 flex flex-col items-center gap-3">
@@ -179,7 +179,7 @@ export default async function HomePage() {
       <section
         id="feedback"
         className="py-24 relative overflow-hidden border-b border-white/8"
-        style={{ background: '#090909' }}
+        style={{ background: '#1c2924' }}
       >
         {/* Atmospheric glow */}
         <div

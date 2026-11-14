@@ -41,7 +41,7 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-5 py-4 sm:px-8 lg:px-12 transition-all duration-500 ${
           scrolled
-            ? 'bg-black/60 backdrop-blur-xl border-b border-white/8'
+            ? 'bg-[#17231f]/85 backdrop-blur-xl border-b border-white/8'
             : 'bg-transparent'
         }`}
         style={{ height: 'var(--nav-height)' }}
@@ -72,7 +72,7 @@ export default function Navbar() {
                   href={href}
                   className={`rounded-full px-4 py-1.5 text-[11px] font-mono font-bold tracking-widest transition-all duration-200 ${
                     active
-                      ? 'bg-white text-[#080808] shadow-sm'
+                      ? 'bg-white text-[#17231f] shadow-sm'
                       : 'text-white/65 hover:bg-white/10 hover:text-white/90'
                   }`}
                 >
@@ -86,7 +86,7 @@ export default function Navbar() {
           <Link
             href="/read"
             className="rounded-full px-5 py-2 text-[11px] font-mono font-bold tracking-widest uppercase text-white transition-all duration-200 hover:opacity-85 hover:-translate-y-px"
-            style={{ background: 'linear-gradient(to bottom, #2b2b2b, #101010)', border: '1px solid rgba(255,255,255,0.1)' }}
+            style={{ background: 'linear-gradient(to bottom, #344b40, #203029)', border: '1px solid rgba(243,238,226,0.16)' }}
           >
             EXPLORE
           </Link>
@@ -127,7 +127,7 @@ export default function Navbar() {
 
       {/* ── Mobile drawer ──────────────────────────────────────────────── */}
       <div
-        className={`fixed right-0 top-0 h-full w-72 bg-[#0a0a0a]/95 backdrop-blur-2xl flex flex-col md:hidden border-l border-white/8 transition-transform duration-500 ${
+        className={`fixed right-0 top-0 h-full w-72 bg-[#202d28]/95 backdrop-blur-2xl flex flex-col md:hidden border-l border-white/8 transition-transform duration-500 ${
           mobileOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{
@@ -185,7 +185,7 @@ export default function Navbar() {
           <Link
             href="/read"
             className="block w-full rounded-full py-3.5 text-center text-xs font-mono font-bold tracking-widest uppercase text-white transition-opacity hover:opacity-85"
-            style={{ background: 'linear-gradient(to bottom, #2b2b2b, #101010)', border: '1px solid rgba(255,255,255,0.1)' }}
+            style={{ background: 'linear-gradient(to bottom, #344b40, #203029)', border: '1px solid rgba(243,238,226,0.16)' }}
             onClick={() => setMobileOpen(false)}
           >
             EXPLORE POETRIES

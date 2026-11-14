@@ -23,7 +23,7 @@ export default function AdminLogin() {
   return (
     <div
       className="relative min-h-screen flex items-center justify-center p-6 overflow-hidden"
-      style={{ background: '#050505' }}
+      style={{ background: '#17231f' }}
     >
       {/* Atmospheric glow */}
       <div

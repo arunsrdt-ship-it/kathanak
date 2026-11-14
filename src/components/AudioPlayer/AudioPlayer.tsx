@@ -47,7 +47,7 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
 
   return (
     <div
-      className="relative flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#0d0d0d] p-6"
+      className="relative flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#202d28] p-6"
       style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.6)', fontFamily: "'Geist', sans-serif" }}
     >
       {/* Atmospheric glow behind disc */}
@@ -72,7 +72,7 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
         {/* Outer ring */}
         <div
           className="absolute inset-0 rounded-full border border-white/6"
-          style={{ background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.04), #111)' }}
+          style={{ background: 'radial-gradient(circle at 30% 30%, rgba(243,238,226,0.08), #202d28)' }}
         />
 
         {/* Spinning disc */}
@@ -80,7 +80,7 @@ export default function AudioPlayer({ poetryId, title, thumbnailUrl }: Props) {
           className="w-[85%] h-[85%] rounded-full relative flex items-center justify-center"
           style={{
             transform: `rotate(${rot}deg)`,
-            background: 'conic-gradient(from 0deg, #1a1a1a, #222, #1a1a1a, #1c1c1c, #1a1a1a)',
+            background: 'conic-gradient(from 0deg, #283b32, #3d5146, #283b32, #31463b, #283b32)',
             boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
           }}
         >

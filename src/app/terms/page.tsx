@@ -35,7 +35,7 @@ const sections = [
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen" style={{ background: '#080808', fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#17231f', fontFamily: "'Geist', sans-serif" }}>
 
       {/* ── Cinematic header ──────────────────────────────────────────── */}
       <div
@@ -43,7 +43,7 @@ export default function TermsPage() {
         style={{
           background: `
             radial-gradient(ellipse at 15% 60%, rgba(255,200,100,0.06) 0%, transparent 55%),
-            #090909
+            #202d28
           `,
         }}
       >

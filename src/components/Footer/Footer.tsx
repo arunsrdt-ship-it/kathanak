@@ -6,7 +6,7 @@ import { Mail, Globe, MessageCircle, Disc } from 'lucide-react';
 export default function Footer() {
   return (
     <footer
-      className="relative border-t border-white/8 bg-[#050505] pt-16 pb-8 overflow-hidden"
+      className="relative border-t border-white/8 bg-[#1c2924] pt-16 pb-8 overflow-hidden"
       style={{ fontFamily: "'Geist', sans-serif" }}
     >
       {/* Atmospheric glow */}

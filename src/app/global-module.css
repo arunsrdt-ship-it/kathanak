@@ -9,14 +9,14 @@
 @layer base {
   :root {
     --nav-height: 5rem;
-    /* Dark cinematic palette */
-    --dark-bg:      #080808;
-    --dark-surface: #111111;
-    --dark-card:    rgba(255,255,255,0.06);
-    --dark-border:  rgba(255,255,255,0.10);
+    /* Deep forest and warm parchment palette */
+    --dark-bg:      #17231f;
+    --dark-surface: #202d28;
+    --dark-card:    rgba(244,234,214,0.06);
+    --dark-border:  rgba(244,234,214,0.12);
     --glass-blur:   16px;
-    --text-primary: rgba(255,255,255,0.92);
-    --text-muted:   rgba(255,255,255,0.50);
+    --text-primary: #f3eee2;
+    --text-muted:   rgba(243,238,226,0.58);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -29,7 +29,8 @@
 
   body {
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--dark-bg);
+    background: radial-gradient(ellipse at 50% 0%, #24382f 0%, #17231f 56%, #141e1a 100%);
+    background-attachment: fixed;
     color: var(--text-primary);
     min-height: 100dvh;
     overflow-x: hidden;
@@ -39,9 +40,9 @@
 
   /* Custom dark scrollbar */
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #0a0a0a; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+  ::-webkit-scrollbar-track { background: #17231f; }
+  ::-webkit-scrollbar-thumb { background: rgba(243,238,226,0.18); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(243,238,226,0.3); }
 
   h1, h2, h3, h4 { color: var(--text-primary); tracking: tight; }
   a { color: inherit; text-decoration: none; }
@@ -83,6 +84,14 @@
     box-shadow: 0 16px 48px rgba(0,0,0,0.4);
   }
 
+  .poetry-paper {
+    color: #26332d;
+    background: #f2ead8;
+    border: 1px solid #d7c9ad;
+    border-radius: 1rem;
+    box-shadow: 0 24px 72px rgba(0,0,0,0.2);
+  }
+
   /* ── Section label ──────────────────────────────────────────────────────── */
   .section-label {
     display: inline-flex;
@@ -110,8 +119,8 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #fff;
-    background: linear-gradient(to bottom, #2B2B2B, #101010);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(to bottom, #344b40, #203029);
+    border: 1px solid rgba(243,238,226,0.16);
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
   .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
@@ -178,7 +187,7 @@
   }
   /* Style native options to dark */
   select.form-input option {
-    background: #141414;
+    background: #202d28;
     color: rgba(255,255,255,0.85);
   }
 
