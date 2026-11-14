@@ -246,6 +246,80 @@ export async function deletePoetry(id: string): Promise<{ success: boolean }> {
 }
 
 // ── ADMIN: Upload Poetry (FormData) ───────────────────────────────────────
+export async function createMediaUploadSession(file: File, type: 'audio' | 'video'): Promise<string> {
+  const res = await fetch(`${API_BASE}/poetry/upload-session`, {
+    method: 'POST',
+    headers: { ...getHeaders(true), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fileName: file.name, mimeType: file.type, fileSize: file.size, type }),
+  });
+  const payload = await res.json().catch(() => ({}));
+  if (!res.ok || !payload.data?.sessionUrl) {
+    throw new Error(payload.message || `Could not prepare media upload (${res.status})`);
+  }
+  return payload.data.sessionUrl;
+}
+
+// Send media in resumable 8 MB chunks directly to Google Drive. This keeps
+// large video bytes out of the Render API request, which was returning 502s.
+export async function uploadMediaToDrive(
+  sessionUrl: string,
+  file: File,
+  onProgress: (percent: number) => void,
+): Promise<string> {
+  if (!sessionUrl.startsWith('https://www.googleapis.com/upload/drive/v3/files?')) {
+    throw new Error('Google Drive returned an invalid upload session');
+  }
+
+  const chunkSize = 8 * 1024 * 1024; // Multiple of Google's 256 KB chunk size.
+  let start = 0;
+
+  const sendChunk = (from: number, to: number) => new Promise<XMLHttpRequest>((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open('PUT', sessionUrl);
+    request.setRequestHeader('Content-Range', `bytes ${from}-${to - 1}/${file.size}`);
+    request.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+    request.upload.onprogress = event => {
+      if (event.lengthComputable) onProgress(Math.min(99, Math.round(((from + event.loaded) / file.size) * 100)));
+    };
+    request.onload = () => resolve(request);
+    request.onerror = () => reject(new Error('Network interrupted while uploading to Google Drive'));
+    request.ontimeout = () => reject(new Error('Google Drive upload timed out. Please retry the upload.'));
+    request.timeout = 120_000;
+    request.send(file.slice(from, to));
+  });
+
+  while (start < file.size) {
+    const end = Math.min(start + chunkSize, file.size);
+    const response = await sendChunk(start, end);
+
+    if (response.status === 308) {
+      const range = response.getResponseHeader('Range');
+      const lastReceived = range?.match(/bytes=0-(\d+)/)?.[1];
+      start = lastReceived ? Number(lastReceived) + 1 : end;
+      onProgress(Math.min(99, Math.floor((start / file.size) * 100)));
+      continue;
+    }
+
+    if (response.status === 200 || response.status === 201) {
+      const uploadedFile = JSON.parse(response.responseText || '{}');
+      if (!uploadedFile.id) throw new Error('Google Drive finished the upload but returned no file ID');
+      onProgress(100);
+      return uploadedFile.id as string;
+    }
+
+    let message = `Google Drive upload failed (${response.status})`;
+    try {
+      const body = JSON.parse(response.responseText);
+      message = body.error?.message || body.message || message;
+    } catch {
+      if (response.statusText) message = `${message}: ${response.statusText}`;
+    }
+    throw new Error(message);
+  }
+
+  throw new Error('Google Drive did not confirm that the upload completed');
+}
+
 export async function uploadPoetry(formData: FormData): Promise<{ success: boolean; data: Poetry }> {
   // Do NOT set Content-Type, browser will automatically set it with boundary for FormData
   const res = await fetch(`${API_BASE}/poetry`, {

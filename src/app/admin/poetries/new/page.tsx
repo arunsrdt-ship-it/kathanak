@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import { uploadPoetry } from '@/lib/api';
+import { createMediaUploadSession, uploadMediaToDrive, uploadPoetry } from '@/lib/api';
 import { ArrowLeft, Save, Upload, AlertTriangle } from 'lucide-react';
 
 /* ── reusable dark label ──────────────────────────────────────────── */
@@ -82,6 +82,7 @@ export default function NewPoetry() {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState('');
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
     title:        '',
@@ -122,6 +123,13 @@ export default function NewPoetry() {
     }
     setLoading(true); setError('');
     try {
+      let driveFileId: string | null = null;
+      if (file && (formData.type === 'audio' || formData.type === 'video')) {
+        setUploadProgress(0);
+        const sessionUrl = await createMediaUploadSession(file, formData.type);
+        driveFileId = await uploadMediaToDrive(sessionUrl, file, setUploadProgress);
+      }
+
       const data = new FormData();
       Object.entries(formData).forEach(([key, val]) => {
         if (key === 'tags') {
@@ -131,9 +139,7 @@ export default function NewPoetry() {
           data.append(key, String(val));
         }
       });
-      if (file && (formData.type === 'audio' || formData.type === 'video')) {
-        data.append('media', file);
-      }
+      if (driveFileId) data.append('driveFileId', driveFileId);
       if (thumbnailFile) data.append('thumbnail', thumbnailFile);
       await uploadPoetry(data);
       await queryClient.invalidateQueries({ queryKey: ['admin-poetries'] });
@@ -143,6 +149,7 @@ export default function NewPoetry() {
       setError(err instanceof Error ? err.message : 'Failed to upload poetry');
     } finally {
       setLoading(false);
+      setUploadProgress(null);
     }
   };
 
@@ -253,7 +260,7 @@ export default function NewPoetry() {
           <div className="rounded-2xl border border-ink/8 bg-ink/4 p-6 backdrop-blur-sm">
             <FieldLabel>{formData.type === 'audio' ? 'Audio file (required)' : 'Video file (required)'}</FieldLabel>
             <p className="mt-1 text-xs leading-relaxed text-ink/70">
-              Upload from your device. The backend stores it in Google Drive, and site players fetch it after saving.
+              Uploads go directly from your device to Google Drive, so large media files do not pass through the API server. Site players can fetch the file after saving.
               {formData.type === 'audio' ? ' Audio limit: 100 MB.' : ' Video limit: 500 MB.'}
             </p>
             <div className="relative mt-3 flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-ink/12 bg-ink/3 py-10 cursor-pointer group hover:bg-ink/6 hover:border-ink/20 transition-all">
@@ -292,6 +299,17 @@ export default function NewPoetry() {
                 </p>
               </div>
             </div>
+            {loading && uploadProgress !== null && (
+              <div className="mt-4" role="status" aria-live="polite">
+                <div className="mb-2 flex justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-ink/65">
+                  <span>{uploadProgress < 100 ? 'Uploading directly to Google Drive' : 'Saving poetry entry'}</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <div className="h-2 overflow-hidden rounded-full bg-ink/10">
+                  <div className="h-full rounded-full bg-ink/65 transition-[width] duration-200" style={{ width: `${uploadProgress}%` }} />
+                </div>
+              </div>
+            )}
             <div className="mt-5 flex max-w-xs flex-col gap-1.5">
                 <FieldLabel>Duration in seconds (optional)</FieldLabel>
                 <input
@@ -365,7 +383,7 @@ export default function NewPoetry() {
             className="btn-primary shrink-0 py-2.5 px-6"
           >
             {loading ? (
-              <>Saving… <span className="animate-spin ml-1 block h-3 w-3 rounded-full border border-ink/30 border-t-white/80" /></>
+              <>{uploadProgress !== null && uploadProgress < 100 ? `UPLOADING ${uploadProgress}%` : 'SAVING…'} <span className="animate-spin ml-1 block h-3 w-3 rounded-full border border-ink/30 border-t-white/80" /></>
             ) : (
               <><Save size={13} /> SAVE ENTRY</>
             )}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AlertTriangle, ArrowLeft, Save, Upload } from 'lucide-react';
-import { type Poetry } from '@/lib/api';
+import { createMediaUploadSession, type Poetry, uploadMediaToDrive } from '@/lib/api';
 import { useAdminPoetry, useUpdatePoetry } from '@/lib/hooks';
 
 type FormState = {
@@ -34,6 +34,8 @@ export default function EditPoetry() {
   const [media, setMedia] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [message, setMessage] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
   useEffect(() => {
     const poetry = data?.data;
@@ -55,7 +57,7 @@ export default function EditPoetry() {
     setForm(current => ({ ...current, [key]: value }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage('');
     if (form.type !== 'text' && !data?.data.hasMedia && !media) {
@@ -90,13 +92,24 @@ export default function EditPoetry() {
     body.append('duration', form.duration);
     body.append('isFeatured', String(form.isFeatured));
     body.append('isPublished', String(form.isPublished));
-    if (media) body.append('media', media);
-    if (thumbnail) body.append('thumbnail', thumbnail);
+    setSaving(true);
+    try {
+      if (media && form.type !== 'text') {
+        setUploadProgress(0);
+        const sessionUrl = await createMediaUploadSession(media, form.type);
+        const driveFileId = await uploadMediaToDrive(sessionUrl, media, setUploadProgress);
+        body.append('driveFileId', driveFileId);
+      }
+      if (thumbnail) body.append('thumbnail', thumbnail);
 
-    updateMutation.mutate({ id, formData: body }, {
-      onSuccess: () => router.push('/admin/poetries'),
-      onError: err => setMessage(err.message || 'Could not save this poetry.'),
-    });
+      await updateMutation.mutateAsync({ id, formData: body });
+      router.push('/admin/poetries');
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : 'Could not save this poetry.');
+    } finally {
+      setSaving(false);
+      setUploadProgress(null);
+    }
   };
 
   if (isLoading) {
@@ -169,7 +182,7 @@ export default function EditPoetry() {
               <div>
                 <span className={labelClass}>{form.type === 'audio' ? 'Audio file' : 'Video file'} {poetry.hasMedia ? '(optional — leave empty to keep the current file)' : '(required)'}</span>
                 <p className="mt-1 text-xs leading-relaxed text-ink/70">
-                  Upload from your device. The backend stores it in Google Drive, and site players fetch it after saving.
+                  Uploads go directly from your device to Google Drive, so large files do not pass through the API server. Site players fetch the file after saving.
                   {form.type === 'audio' ? ' Audio limit: 100 MB.' : ' Video limit: 500 MB.'}
                 </p>
               </div>
@@ -196,6 +209,17 @@ export default function EditPoetry() {
                   }}
                 />
               </label>
+              {saving && uploadProgress !== null && (
+                <div role="status" aria-live="polite">
+                  <div className="mb-2 flex justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-ink/65">
+                    <span>{uploadProgress < 100 ? 'Uploading directly to Google Drive' : 'Saving poetry entry'}</span>
+                    <span>{uploadProgress}%</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-ink/10">
+                    <div className="h-full rounded-full bg-ink/65 transition-[width] duration-200" style={{ width: `${uploadProgress}%` }} />
+                  </div>
+                </div>
+              )}
               <label className="flex flex-col gap-2">
                 <span className={labelClass}>Duration in seconds</span>
                 <input className="form-input max-w-xs" type="number" min="0" value={form.duration} onChange={e => setField('duration', e.target.value)} />
@@ -233,8 +257,8 @@ export default function EditPoetry() {
 
         <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="text-xs text-ink/70">Created {new Date(poetry.createdAt).toLocaleDateString()}</p>
-          <button className="btn-primary" type="submit" disabled={updateMutation.isPending}>
-            <Save size={14} /> {updateMutation.isPending ? 'SAVING…' : 'SAVE CHANGES'}
+          <button className="btn-primary" type="submit" disabled={saving || updateMutation.isPending}>
+            <Save size={14} /> {saving ? uploadProgress !== null && uploadProgress < 100 ? `UPLOADING ${uploadProgress}%` : 'SAVING…' : 'SAVE CHANGES'}
           </button>
         </div>
       </form>
