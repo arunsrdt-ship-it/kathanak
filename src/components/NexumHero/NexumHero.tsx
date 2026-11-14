@@ -77,7 +77,7 @@ export default function NexumHero() {
 
   return (
     <section
-      className="nexum-hero relative h-screen w-full overflow-hidden"
+      className="nexum-hero relative h-[80svh] min-h-[500px] w-full overflow-hidden sm:h-[84svh] sm:min-h-[560px] md:h-screen md:min-h-0"
       style={{ fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, sans-serif" }}
     >
       {/* ── Full-bleed Background Video ──────────────────────────────────── */}

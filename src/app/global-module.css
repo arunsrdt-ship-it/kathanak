@@ -325,6 +325,25 @@ input[type='range']::-moz-range-thumb {
   animation: nexum-depth-pulse 8s ease-in-out infinite;
 }
 
+/* Let the custom player fill the viewport and keep its own exit control usable. */
+.video-player:fullscreen,
+.video-player:-webkit-full-screen {
+  width: 100vw;
+  height: 100dvh;
+  max-width: 100vw;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: 0;
+  background: #000;
+}
+.video-player:fullscreen video,
+.video-player:-webkit-full-screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.video-player::backdrop { background: #000; }
+
 /* Logo spin-on-hover */
 .nexum-hero .group svg,
 .kathanak-logo-icon {

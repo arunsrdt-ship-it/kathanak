@@ -1,10 +1,25 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize2, RotateCcw, RotateCw } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, Minimize2, RotateCcw, RotateCw } from 'lucide-react';
 import { getStreamUrl, formatDuration } from '@/lib/api';
 
 interface Props { poetryId: string; title: string; thumbnailUrl?: string; }
+
+type FullscreenDocument = Document & {
+  webkitFullscreenElement?: Element | null;
+  webkitExitFullscreen?: () => Promise<void> | void;
+};
+
+type FullscreenElement = HTMLElement & {
+  webkitRequestFullscreen?: () => Promise<void> | void;
+};
+
+type FullscreenVideo = HTMLVideoElement & {
+  webkitEnterFullscreen?: () => void;
+  webkitExitFullscreen?: () => void;
+  webkitDisplayingFullscreen?: boolean;
+};
 
 export default function VideoPlayer({ poetryId, title, thumbnailUrl }: Props) {
   const videoRef  = useRef<HTMLVideoElement>(null);
@@ -16,6 +31,7 @@ export default function VideoPlayer({ poetryId, title, thumbnailUrl }: Props) {
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState(false);
   const [controls, setControls] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const src = getStreamUrl(poetryId);
 
@@ -23,6 +39,30 @@ export default function VideoPlayer({ poetryId, title, thumbnailUrl }: Props) {
   const onLoaded     = () => { setDuration(videoRef.current!.duration); setLoading(false); };
   const onEnd        = () => setPlaying(false);
   const onError      = () => { setError(true); setLoading(false); };
+
+  useEffect(() => {
+    const doc = document as FullscreenDocument;
+    const video = videoRef.current as FullscreenVideo | null;
+    const syncFullscreenState = () => {
+      setIsFullscreen(
+        doc.fullscreenElement === wrapRef.current ||
+        doc.webkitFullscreenElement === wrapRef.current ||
+        Boolean(video?.webkitDisplayingFullscreen)
+      );
+    };
+
+    document.addEventListener('fullscreenchange', syncFullscreenState);
+    document.addEventListener('webkitfullscreenchange', syncFullscreenState);
+    video?.addEventListener('webkitbeginfullscreen', syncFullscreenState);
+    video?.addEventListener('webkitendfullscreen', syncFullscreenState);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', syncFullscreenState);
+      document.removeEventListener('webkitfullscreenchange', syncFullscreenState);
+      video?.removeEventListener('webkitbeginfullscreen', syncFullscreenState);
+      video?.removeEventListener('webkitendfullscreen', syncFullscreenState);
+    };
+  }, []);
 
   const toggle = () => {
     const v = videoRef.current!;
@@ -32,22 +72,48 @@ export default function VideoPlayer({ poetryId, title, thumbnailUrl }: Props) {
 
   const seek     = (v: number) => { videoRef.current!.currentTime = v; setCurrent(v); };
   const skip     = (s: number) => seek(Math.min(Math.max(current + s, 0), duration));
-  const fullscreen = () => wrapRef.current?.requestFullscreen?.();
+  const fullscreen = async () => {
+    const doc = document as FullscreenDocument;
+    const wrapper = wrapRef.current as FullscreenElement | null;
+    const video = videoRef.current as FullscreenVideo | null;
+    const thisPlayerIsFullscreen = Boolean(
+      doc.fullscreenElement === wrapper ||
+      doc.webkitFullscreenElement === wrapper ||
+      video?.webkitDisplayingFullscreen
+    );
+
+    try {
+      if (thisPlayerIsFullscreen) {
+        if (document.exitFullscreen) await document.exitFullscreen();
+        else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen();
+        else video?.webkitExitFullscreen?.();
+        return;
+      }
+
+      if (wrapper?.requestFullscreen) await wrapper.requestFullscreen();
+      else if (wrapper?.webkitRequestFullscreen) await wrapper.webkitRequestFullscreen();
+      else video?.webkitEnterFullscreen?.();
+    } catch (fullscreenError) {
+      console.warn('Could not toggle video fullscreen:', fullscreenError);
+    }
+  };
   const progress   = duration ? (current / duration) * 100 : 0;
 
   return (
     <div
       ref={wrapRef}
-      className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/8 bg-black group"
+      className="video-player relative w-full aspect-video rounded-2xl overflow-hidden border border-white/8 bg-black group"
       style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.6)' }}
       onMouseEnter={() => setControls(true)}
       onMouseLeave={() => setControls(false)}
+      onTouchStart={() => setControls(true)}
     >
       <video
         ref={videoRef}
         src={src}
         preload="auto"
         poster={thumbnailUrl}
+        playsInline
         className="w-full h-full object-contain"
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoaded}
@@ -126,8 +192,14 @@ export default function VideoPlayer({ poetryId, title, thumbnailUrl }: Props) {
                 {formatDuration(Math.floor(current))} / {formatDuration(Math.floor(duration))}
               </span>
             </div>
-            <button onClick={fullscreen} className="text-white/40 hover:text-white transition-colors">
-              <Maximize2 size={13} />
+            <button
+              type="button"
+              onClick={fullscreen}
+              aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+              title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+              className="text-white/55 hover:text-white transition-colors"
+            >
+              {isFullscreen ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
             </button>
           </div>
         </div>
